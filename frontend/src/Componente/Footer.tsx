@@ -16,6 +16,7 @@ const Footer: React.FC = () => {
                     position: "relative",
                     bottom: "0",
                     width: "100%",
+                    zIndex:"5"
                 }}
             >
                 <h3
