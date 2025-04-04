@@ -1,0 +1,48 @@
+# .NET build files
+bin/
+obj/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Rider / VS Code / Visual Studio files
+.vscode/
+.idea/
+*.csproj.user
+
+# Logs & Cache
+logs/
+*.log
+.DS_Store
+Thumbs.db
+
+# User secrets (if used)
+secrets.json
+
+# Database
+*.mdf
+*.ldb
+*.sqlite
+*.db-shm
+*.db-wal
+
+# Published files
+publish/
+wwwroot/
+
+# Docker
+docker-compose.override.yml
+.env
+
+# NuGet dependencies
+*.nupkg
+.nuget/
+packages/
+
+# Resharper / JetBrains
+*.DotSettings.user
+
+# Mac/Linux files
+*.swp
+*.swo
