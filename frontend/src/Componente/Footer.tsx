@@ -1,9 +1,7 @@
 import { useNavigate } from "react-router-dom";
 
-
 const Footer: React.FC = () => {
     const navigate = useNavigate();
-
 
     return (
         <div>
@@ -16,6 +14,10 @@ const Footer: React.FC = () => {
                     position: "relative",
                     bottom: "0",
                     width: "100%",
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    pointerEvents: "none",
                 }}
             >
                 <h3
@@ -26,32 +28,30 @@ const Footer: React.FC = () => {
                     More Information
                 </h3>
                 <div style={{
-                    display: "grid",
-                    gridTemplateColumns: "repeat(3, 1fr)", // 3 equal columns
+                    display: "flex",
+                    flexWrap: "wrap",
+                    justifyContent: "center",
                     gap: "10px",
                     maxWidth: "600px",
-                    margin: "0 auto",
+                    width: "100%",
                     textAlign: "left",
                 }}>
-                    <div style={{ gridColumn: "1" }}>
-                        {/*logo*!*/}
+                    <div style={{ flex: "1 1 100px" }}>
+                        {/*logo*/}
                     </div>
-                    <div style={{ gridColumn: "2" }}>
+                    <div style={{ flex: "1 1 100px" }}>
                         <p style={{ cursor: "pointer", color: "#414141" }} onClick={() => navigate("/about")}>About Us</p>
                         <p style={{ cursor: "pointer", color: "#414141" }} onClick={() => navigate("/shops")}>Shops</p>
                         <p style={{ cursor: "pointer", color: "#414141" }} onClick={() => navigate("/questions")}>Questions</p>
                         <p style={{ cursor: "pointer", color: "#414141" }} onClick={() => navigate("/contact")}>Contact</p>
-
                     </div>
-                    <div style={{ gridColumn: "3" }}>
+                    <div style={{ flex: "1 1 100px" }}>
                         <p style={{ cursor: "pointer", color: "#414141" }} onClick={() => navigate("/termsofuse")}>Terms of Use</p>
                         <p style={{ cursor: "pointer", color: "#414141" }} onClick={() => navigate("/termsofsale")}>Terms of Sale</p>
                         <p style={{ cursor: "pointer", color: "#414141" }} onClick={() => navigate("/privacy")}>Privacy & Cookie Policy</p>
                     </div>
-
                 </div>
             </footer>
-
         </div>
     );
 };
