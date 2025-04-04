@@ -86,16 +86,49 @@ public class AuthController : ControllerBase
             u.Username == model.UsernameOrEmail ||
             u.Email == model.UsernameOrEmail);
 
-        if (user != null && VerifyPassword(model.Password, user.PasswordHash))
+        if (user == null || !VerifyPassword(model.Password, user.PasswordHash))
         {
-            var verificationCode = new Random().Next(100000, 999999).ToString();
-            await _context.SaveChangesAsync();
-
-            var emailService = new EmailService();
-            await emailService.SendAuthAsync(user.Email, verificationCode);
+            return Unauthorized("Invalid credentials");
         }
 
-        return Unauthorized("Invalid credentials");
+        if (!user.IsVerifiedEmail)
+        {
+            return BadRequest("Please verify your email first");
+        }
+
+        var verificationCode = new Random().Next(100000, 999999).ToString();
+        user.EmailVerificationCode = verificationCode;
+        await _context.SaveChangesAsync();
+
+        var emailService = new EmailService();
+        await emailService.SendAuthAsync(user.Email, verificationCode);
+
+        // Generate JWT token
+        var token = GenerateJwtToken(user);
+
+        return Ok(new { token, message = "2FA code sent to your email" });
+    }
+
+    private string GenerateJwtToken(User user)
+    {
+        var tokenHandler = new JwtSecurityTokenHandler();
+        var key = Encoding.UTF8.GetBytes(SecretKey);
+        var tokenDescriptor = new SecurityTokenDescriptor
+        {
+            Subject = new ClaimsIdentity(new[]
+            {
+                new Claim(ClaimTypes.Name, user.Username),
+                new Claim(ClaimTypes.Email, user.Email),
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
+            }),
+            Expires = DateTime.UtcNow.AddHours(1),
+            SigningCredentials = new SigningCredentials(
+                new SymmetricSecurityKey(key),
+                SecurityAlgorithms.HmacSha256Signature)
+        };
+
+        var token = tokenHandler.CreateToken(tokenDescriptor);
+        return tokenHandler.WriteToken(token);
     }
     private bool IsValidEmail(string email)
     {

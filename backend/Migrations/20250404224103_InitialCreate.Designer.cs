@@ -6,17 +6,17 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Backend.Migrations
+namespace backend.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250404191259_InitialCreate")]
+    [Migration("20250404224103_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "9.0.3");
+            modelBuilder.HasAnnotation("ProductVersion", "7.0.0");
 
             modelBuilder.Entity("User", b =>
                 {
@@ -28,22 +28,18 @@ namespace Backend.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<bool>("IsVerified")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("LoginVerificationCode")
+                    b.Property<string>("EmailVerificationCode")
                         .IsRequired()
                         .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsVerifiedEmail")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("PasswordHash")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Username")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("VerificationCode")
                         .IsRequired()
                         .HasColumnType("TEXT");
 

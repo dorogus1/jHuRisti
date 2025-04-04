@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Backend.Migrations
+namespace backend.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     partial class ApplicationDbContextModelSnapshot : ModelSnapshot
@@ -13,7 +13,7 @@ namespace Backend.Migrations
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "9.0.3");
+            modelBuilder.HasAnnotation("ProductVersion", "7.0.0");
 
             modelBuilder.Entity("User", b =>
                 {
@@ -31,13 +31,6 @@ namespace Backend.Migrations
 
                     b.Property<bool>("IsVerifiedEmail")
                         .HasColumnType("INTEGER");
-
-                    b.Property<bool>("IsVerifiedLogin")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("LoginVerificationCode")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
 
                     b.Property<string>("PasswordHash")
                         .IsRequired()

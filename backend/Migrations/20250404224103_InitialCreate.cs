@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace Backend.Migrations
+namespace backend.Migrations
 {
     /// <inheritdoc />
     public partial class InitialCreate : Migration
@@ -19,9 +19,8 @@ namespace Backend.Migrations
                     Username = table.Column<string>(type: "TEXT", nullable: false),
                     Email = table.Column<string>(type: "TEXT", nullable: false),
                     PasswordHash = table.Column<string>(type: "TEXT", nullable: false),
-                    VerificationCode = table.Column<string>(type: "TEXT", nullable: false),
-                    IsVerified = table.Column<bool>(type: "INTEGER", nullable: false),
-                    LoginVerificationCode = table.Column<string>(type: "TEXT", nullable: false)
+                    EmailVerificationCode = table.Column<string>(type: "TEXT", nullable: false),
+                    IsVerifiedEmail = table.Column<bool>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
