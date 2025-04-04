@@ -1,9 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
-
-const Footer: React.FC = () => {
+const Header: React.FC = () => {
     const [isHovered, setIsHovered] = useState(false);
-
 
     return (
         <div>
@@ -14,12 +12,14 @@ const Footer: React.FC = () => {
                         top: "0",
                         left: "0",
                         width: "100%",
-                        height: "11%", // Covers the top part of the page
-                        backgroundColor: "#CBCBCB", // Light grey transparent background
-                        zIndex: "5", // Puts it behind the text
+                        height: "11%",
+                        backgroundColor: "#CBCBCB",
+                        zIndex: "5",
+                        pointerEvents: "none", // 🔥 Add this line here
                     }}
                 ></div>
             )}
+
 
             {/* Header (Above the Box) */}
             <header
@@ -33,11 +33,10 @@ const Footer: React.FC = () => {
                 onMouseEnter={() => setIsHovered(true)}
                 onMouseLeave={() => setIsHovered(false)}
             >
-                jHuRisti
+                <span style={{ cursor: "pointer" }}>jHuRisti</span>
             </header>
-
         </div>
     );
 };
 
-export default Footer;
+export default Header;

@@ -6,9 +6,13 @@ export function LoginPageButton() {
     const navigate = useNavigate();
     const [isHovered, setIsHovered] = useState(false);
 
+    const handleClick = () => {
+        console.log("User logo clicked");
+        navigate('/');
+    };
+
     return (
         <>
-            {/* Hover Background (Placed First So It's Behind Everything) */}
             {isHovered && (
                 <div
                     style={{
@@ -16,9 +20,9 @@ export function LoginPageButton() {
                         top: "0",
                         left: "0",
                         width: "100%",
-                        height: "11%", // Covers the top part of the page
-                        backgroundColor: "#CBCBCB", // Light grey transparent background
-                        zIndex: "1", // Lower than everything else
+                        height: "11%",
+                        backgroundColor: "#CBCBCB",
+                        zIndex: "1",
                     }}
                 ></div>
             )}
@@ -28,20 +32,21 @@ export function LoginPageButton() {
                     position: "absolute",
                     top: "25px",
                     right: "10px",
-                    zIndex: "10", // Ensures the image stays on top
+                    zIndex: "20", // Increased z-index
                 }}
                 onMouseEnter={() => setIsHovered(true)}
                 onMouseLeave={() => setIsHovered(false)}
+                onClick={handleClick}
             >
                 <img
                     src={UserLogo}
+                    alt="User Icon"
                     style={{
                         width: "35px",
                         height: "35px",
                         cursor: "pointer",
-                        zIndex: "10", // Stays on top
+                        pointerEvents: "auto",
                     }}
-                    onClick={() => navigate('/')}
                 />
             </div>
         </>
