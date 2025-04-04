@@ -2,12 +2,12 @@ import UserLogo from "../Pictures/User.png";
 import { useNavigate } from "react-router-dom";
 import React, { useState } from "react";
 
-export function LoginPageButton() {
+export function CollectionButton() {
     const navigate = useNavigate();
     const [isHovered, setIsHovered] = useState(false);
 
     const handleClick = () => {
-        navigate('/');
+        navigate('/collection');
     };
 
     return (
@@ -30,7 +30,7 @@ export function LoginPageButton() {
                 style={{
                     position: "absolute",
                     top: "25px",
-                    right: "20px",
+                    right: "60px",
                     zIndex: "20", // Increased z-index
                 }}
                 onMouseEnter={() => setIsHovered(true)}

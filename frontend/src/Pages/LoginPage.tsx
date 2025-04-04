@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import './LoginPage.css';
+import Header from "../Componente/Header";
 
 const LoginPage: React.FC = () => {
     const [usernameOrEmail, setUsernameOrEmail] = useState("");
@@ -28,28 +29,31 @@ const LoginPage: React.FC = () => {
     };
 
     return (
-        <div className="container">
-            <h1 className="title">SIGN IN/REGISTER</h1>
-            <p className="label">Username or Email</p>
-            <input
-                type="text"
-                name="usernameOrEmail"
-                placeholder="Username or Email"
-                className="text-box"
-                value={usernameOrEmail}
-                onChange={(e) => setUsernameOrEmail(e.target.value)}
-            />
-            <p className="label">Password</p>
-            <input
-                type="password"
-                name="password"
-                placeholder="Password"
-                className="text-box"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-            />
-            <button className="button" onClick={handleSubmit}>Login</button>
-            <p className="label">Don't have an account? <Link to="/register">Register</Link></p>
+        <div>
+            <Header />
+            <div className="container" style={{ paddingTop: "10vh" }}>
+                <h1 className="title">SIGN IN/REGISTER</h1>
+                <p className="label">Username or Email</p>
+                <input
+                    type="text"
+                    name="usernameOrEmail"
+                    placeholder="Username or Email"
+                    className="text-box"
+                    value={usernameOrEmail}
+                    onChange={(e) => setUsernameOrEmail(e.target.value)}
+                />
+                <p className="label">Password</p>
+                <input
+                    type="password"
+                    name="password"
+                    placeholder="Password"
+                    className="text-box"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                />
+                <button className="button" onClick={handleSubmit}>Login</button>
+                <p className="label">Don't have an account? <Link to="/register">Register</Link></p>
+            </div>
         </div>
     );
 }

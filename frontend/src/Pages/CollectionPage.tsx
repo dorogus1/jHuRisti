@@ -49,14 +49,6 @@ const CollectionPage: React.FC = () => {
         return matchType && matchSize && matchStock && matchPrice;
     });
 
-    const handleMouseEnter = (e: React.MouseEvent<HTMLImageElement>) => {
-        (e.target as HTMLImageElement).style.transform = "scale(1.1)";
-    };
-
-    const handleMouseLeave = (e: React.MouseEvent<HTMLImageElement>) => {
-        (e.target as HTMLImageElement).style.transform = "scale(1)";
-    };
-
     const handleFilterChange = (newFilters: typeof filters) => {
         setFilters(newFilters);
     };
@@ -87,8 +79,6 @@ const CollectionPage: React.FC = () => {
                                     width: "100%",
                                     transition: "transform 0.3s ease",
                                 }}
-                                onMouseEnter={handleMouseEnter}
-                                onMouseLeave={handleMouseLeave}
                             />
                             <h2 style={{ fontSize: "18px", margin: "10px 0" }}>{product.name}</h2>
                             <p style={{ fontWeight: "bold" }}>{product.price}</p>

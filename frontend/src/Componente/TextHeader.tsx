@@ -1,13 +1,12 @@
-import UserLogo from "../Pictures/User.png";
-import { useNavigate } from "react-router-dom";
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-export function LoginPageButton() {
+const TextHeader: React.FC = () => {
     const navigate = useNavigate();
     const [isHovered, setIsHovered] = useState(false);
 
     const handleClick = () => {
-        navigate('/');
+        navigate('/main');
     };
 
     return (
@@ -26,28 +25,26 @@ export function LoginPageButton() {
                 ></div>
             )}
 
-            <div
+            <header
                 style={{
-                    position: "absolute",
-                    top: "25px",
-                    right: "20px",
-                    zIndex: "20", // Increased z-index
+                    fontSize: "32px",
+                    textAlign: "center",
+                    padding: "5px",
+                    position: "relative",
+                    top: "10px",
+                    zIndex: "10",
+                    cursor: "pointer",
+                    width: "120px",
+                    margin: "0 auto",
                 }}
+                onClick={handleClick}
                 onMouseEnter={() => setIsHovered(true)}
                 onMouseLeave={() => setIsHovered(false)}
-                onClick={handleClick}
             >
-                <img
-                    src={UserLogo}
-                    alt="User Icon"
-                    style={{
-                        width: "35px",
-                        height: "35px",
-                        cursor: "pointer",
-                        pointerEvents: "auto",
-                    }}
-                />
-            </div>
+                jHuRisti
+            </header>
         </>
     );
-}
+};
+
+export default TextHeader;
