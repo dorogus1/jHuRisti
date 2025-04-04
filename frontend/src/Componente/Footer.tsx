@@ -11,13 +11,11 @@ const Footer: React.FC = () => {
                     color: "white",
                     padding: "20px",
                     textAlign: "center",
-                    position: "relative",
                     bottom: "0",
                     width: "100%",
-                    display: "flex",
                     flexDirection: "column",
                     alignItems: "center",
-                    pointerEvents: "none",
+                    zIndex: "10",
                 }}
             >
                 <h3

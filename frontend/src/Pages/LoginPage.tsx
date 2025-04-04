@@ -1,97 +1,55 @@
-import React from 'react';
-import { useState } from 'react';
+import React, { useState } from 'react';
+import axios from 'axios';
+import { Link, useNavigate } from 'react-router-dom';
+import './LoginPage.css';
 
+const LoginPage: React.FC = () => {
+    const [usernameOrEmail, setUsernameOrEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const navigate = useNavigate();
 
-//stil pt caseta de login
-const containerStyle: React.CSSProperties = {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
-    gap: "10px", // Adds space between elements
-};
+    const handleSubmit = async () => {
+        try {
+            const response = await axios.post("http://localhost:5274/api/auth/login", {
+                usernameOrEmail,
+                password
+            });
+            alert("Login successful! Redirecting to the main page.");
+            navigate('/main');
+        } catch (error: any) { // Type assertion to 'any'
+            if (error.response) {
+                console.error("Error response:", error.response.data);
+                alert(`Login failed: ${error.response.data}`);
+            } else {
+                console.error("Error message:", error.message);
+                alert("Login failed!");
+            }
+        }
+    };
 
-const TextBoxStyle: React.CSSProperties = {
-    width: "30vw", // 50% of the viewport width
-    height: "20px", // 5% of the viewport height
-    padding: "5px 10px",
-    fontSize: "16px",
-    textAlign: "center",
-    border: "1px solid gray",
-    borderRadius: "5px",
-    outline: "none"
-};
-
-
-const LoginPage: React.FC = () =>
-{
-
-    return(
-        <div style={containerStyle}>
-            <h1
-                style ={{
-                    fontSize: "32px",
-                    textAlign: "center"
-
-                }}>
-                SIGN IN/REGISTER
-            </h1>
-            <p style={{
-                fontSize: "18px",
-                marginBottom: "1px",
-                textAlign: "center"
-            }}>
-                Name
-            </p>
+    return (
+        <div className="container">
+            <h1 className="title">SIGN IN/REGISTER</h1>
+            <p className="label">Username or Email</p>
             <input
-                type="Name"
-                name="name"
-                placeholder="Name"
-                style={TextBoxStyle}
+                type="text"
+                name="usernameOrEmail"
+                placeholder="Username or Email"
+                className="text-box"
+                value={usernameOrEmail}
+                onChange={(e) => setUsernameOrEmail(e.target.value)}
             />
-            <p style={{
-                fontSize: "18px",
-                marginBottom: "1px",
-                textAlign: "center"
-            }}>
-                Email
-            </p>
-            <input
-                type="email"
-                name="email"
-                placeholder="Email"
-                style={TextBoxStyle}
-            />
-
-            <p style={{
-                fontSize: "18px",
-                marginBottom: "1px",
-                textAlign: "center"
-            }}>
-                Password
-            </p>
+            <p className="label">Password</p>
             <input
                 type="password"
                 name="password"
                 placeholder="Password"
-                style={TextBoxStyle}
+                className="text-box"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
             />
-
-            <button
-               // onClick={handleSubmit}
-                style={{
-                    display: "block",
-                    margin: "10px auto",
-                    padding: "10px 20px",
-                    fontSize: "16px",
-                    backgroundColor: "#007BFF",
-                    color: "white",
-                    border: "none",
-                    borderRadius: "5px",
-                    cursor: "pointer"
-                }}>
-                Login
-            </button>
+            <button className="button" onClick={handleSubmit}>Login</button>
+            <p className="label">Don't have an account? <Link to="/register">Register</Link></p>
         </div>
     );
 }

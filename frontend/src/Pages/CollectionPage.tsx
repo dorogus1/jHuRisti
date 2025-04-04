@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import FilterSidebar from '../Componente/ProductFilterSideBar';
 import image1 from '../Img/5751a5302061c5b2860c113558fcbc09.jpg';
 import image2 from '../Img/1c64075ae03627456e64840d1e6e279c.jpg';
 import image3 from '../Img/75e22594c83a665309cf09bb4e121a60.jpg';
@@ -13,6 +12,7 @@ import image10 from '../Img/img.png';
 import image11 from '../Img/img_1.png';
 import image12 from '../Img/img_2.png';
 import Footer from "../Componente/Footer";
+import Header from "../Componente/Header";
 
 const products = [
     { id: 1, name: "Sparkly Y2K blue vibes!", image: image1, price: "$59.99", priceValue: 59.99, type: "Women", size: "M", inStock: true },
@@ -57,14 +57,14 @@ const CollectionPage: React.FC = () => {
         (e.target as HTMLImageElement).style.transform = "scale(1)";
     };
 
-    return (
-        <div style={{ display: "flex", gap: "20px" }}>
-            {/* Sidebar */}
-            <FilterSidebar onFilterChange={setFilters} />
+    const handleFilterChange = (newFilters: typeof filters) => {
+        setFilters(newFilters);
+    };
 
-            {/* Main content */}
+    return (
+        <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+            <Header showFilterButton={true} onFilterChange={handleFilterChange} />
             <div style={{ flex: 1 }}>
-                <h1 style={{ fontSize: "32px", textAlign: "center" }}>COLLECTION PAGE</h1>
                 <div style={{
                     display: "flex",
                     justifyContent: "center",
@@ -85,7 +85,7 @@ const CollectionPage: React.FC = () => {
                                 alt={product.name}
                                 style={{
                                     width: "100%",
-                                    transition: "transform 0.3s ease", // Adding smooth transition for scaling
+                                    transition: "transform 0.3s ease",
                                 }}
                                 onMouseEnter={handleMouseEnter}
                                 onMouseLeave={handleMouseLeave}
