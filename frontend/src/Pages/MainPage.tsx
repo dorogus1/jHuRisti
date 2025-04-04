@@ -20,7 +20,7 @@ const MainPage: React.FC = () => {
 
     return (
         <div>
-            <LoginPageButton />
+
             <Header />
             <div
                 style={{
