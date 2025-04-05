@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import '../CssFiles/Componente.css';
-import DarkMode from "../Pictures/User.png";
+import DarkMode from "../Pictures/BlackThemeButton.png";
+import LightMode from "../Pictures/WhiteThemeButton.png";
 
 export function ThemeButton() {
     const [isHovered, setIsHovered] = useState(false);
@@ -10,6 +11,18 @@ export function ThemeButton() {
         setIsDarkMode(!isDarkMode);
         document.body.classList.toggle('dark-mode');
     };
+
+    useEffect(() => {
+        const checkDarkMode = () => {
+            setIsDarkMode(document.body.classList.contains('dark-mode'));
+        };
+
+        checkDarkMode();
+        const observer = new MutationObserver(checkDarkMode);
+        observer.observe(document.body, { attributes: true, attributeFilter: ['class'] });
+
+        return () => observer.disconnect();
+    }, []);
 
     return (
         <>
@@ -22,7 +35,7 @@ export function ThemeButton() {
                 onClick={handleClick}
             >
                 <img
-                    src={DarkMode}
+                    src={isDarkMode ? LightMode : DarkMode}
                     alt="Theme Toggle"
                     className="user-button-icon"
                 />
