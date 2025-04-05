@@ -1,9 +1,11 @@
+// frontend/src/Pages/CollectionPage.tsx
 import React, { useState, useRef, useEffect } from 'react';
 import Footer from "../Componente/Footer";
 import Header from "../Componente/Header";
 import '../CssFiles/CollectionPage.css';
 import PlayButton from '../Componente/PlayButton';
 import { useSound } from "../Context/SoundContext";
+import CartButtonAdd from "../Componente/CartButtonAdd";
 
 interface Product {
     id: number;
@@ -47,16 +49,15 @@ const CollectionPage: React.FC = () => {
     const fetchProducts = async () => {
         try {
             const response = await fetch('http://localhost:5274/api/product/products');
-
             if (!response.ok) {
                 throw new Error(`Error ${response.status}: ${response.statusText}`);
             }
-
             const data = await response.json();
             setProducts(data);
             setLoading(false);
         } catch (err) {
             console.error('Error fetching products:', err);
+            setError('Failed to load products');
         }
     };
 
@@ -80,7 +81,6 @@ const CollectionPage: React.FC = () => {
             iframe.style.top = '-9999px';
             iframe.style.left = '-9999px';
             iframe.allow = 'autoplay';
-
             iframe.src = `https://www.youtube.com/embed/${youtubeId}?autoplay=1&controls=0&showinfo=0&autohide=1&enablejsapi=1`;
 
             document.body.appendChild(iframe);
@@ -178,21 +178,21 @@ const CollectionPage: React.FC = () => {
                                 onMouseLeave={handleMouseLeave}
                             >
                                 <img
-                                    src={product.image?.startsWith('http') ? product.image :
-                                        product.image?.startsWith('/') ? `http://localhost:5274${product.image}` :
-                                            typeof product.image === 'string' ? product.image :
-                                                'https://via.placeholder.com/300x400?text=No+Image'}
+                                    src={product.image || 'https://via.placeholder.com/300x400?text=No+Image'}
                                     alt={product.name}
                                     className={`product-image ${playingId === product.youtubeId ? 'playing' : ''}`}
                                     onError={(e) => {
                                         (e.target as HTMLImageElement).src = 'https://via.placeholder.com/300x400?text=No+Image';
                                     }}
                                 />
-                                <PlayButton
-                                    youtubeId={product.youtubeId}
-                                    playingId={playingId}
-                                    onPlay={handlePlay}
-                                />
+                                <div>
+                                    <CartButtonAdd />
+                                    <PlayButton
+                                        youtubeId={product.youtubeId}
+                                        playingId={playingId}
+                                        onPlay={handlePlay}
+                                    />
+                                </div>
                                 <h2 className="product-title">{product.name}</h2>
                                 <p className="product-price">${product.price.toFixed(2)}</p>
                             </div>
@@ -203,8 +203,8 @@ const CollectionPage: React.FC = () => {
                         </div>
                     )}
                 </div>
-                <Footer />
             </div>
+            <Footer />
         </div>
     );
 };
