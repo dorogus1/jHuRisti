@@ -2,8 +2,8 @@
 import { useNavigate } from "react-router-dom";
 import React, { useEffect, useState, useRef } from "react";
 import '../CssFiles/Componente.css';
-import DarkMode from "../Pictures/BlackShopCart.png";
-import LightMode from "../Pictures/WhiteShopCart.png";
+import LightMode from "../Pictures/ShopWhite.png";
+import DarkMode from "../Pictures/ShopBlack.png";
 import hoverSound from "../Sounds/PeELE.mp3";
 
 export function CollectionButton() {

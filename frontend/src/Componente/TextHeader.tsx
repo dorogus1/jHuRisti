@@ -37,7 +37,7 @@ const TextHeader: React.FC = () => {
                 onMouseLeave={() => setIsHovered(false)}
             >
                 <img
-                    src={isDarkMode ? (LogoLight && isHovered ? HoverImage : LogoDark) : (LogoDark && isHovered ? HoverImage : LogoDark)}
+                    src={isDarkMode ? (LogoLight && isHovered ? HoverImage : LogoLight) : (LogoDark && isHovered ? HoverImage : LogoDark)}
                     alt="jHuRisti Logo"
                     className="text-header-logo"
                 />

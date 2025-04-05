@@ -52,21 +52,16 @@ const FilterButton: React.FC<FilterButtonProps> = ({ onFilterChange }) => {
         setIsDropdownVisible(!isDropdownVisible);
     };
 
+    const handleStyle = {
+        backgroundImage: `url(${isDarkMode ? whiteFilterButton : blackFilterButton})`
+    };
+
     return (
         <div className="filter-container">
             <button
                 onClick={toggleDropdown}
                 className="filter-button"
-                style={{
-                    backgroundImage: `url(${isDarkMode ? whiteFilterButton : blackFilterButton})`,
-                    width: "50px",
-                    height: "50px",
-                    backgroundSize: "contain",
-                    backgroundRepeat: "no-repeat",
-                    backgroundPosition: "center",
-                    border: "none",
-                    cursor: "pointer", 
-                }}
+                style={handleStyle}
             />
             {isDropdownVisible && (
                 <div className="filter-dropdown">
