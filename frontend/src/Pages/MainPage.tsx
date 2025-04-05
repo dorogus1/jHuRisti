@@ -6,7 +6,7 @@ import image4 from '../Img/1c64075ae03627456e64840d1e6e279c.jpg';
 import image5 from '../Img/2afe38ade37de829b765f44b819831c6.jpg';
 import image6 from '../Img/2ba3838c208138b6ca4a56b894501e41.jpg';
 import image7 from '../Img/75e22594c83a665309cf09bb4e121a60.jpg';
-import image8 from '../Img/5751a5302061c5b2860c113558fcbc09.jpg';
+import image8 from '../Img/da4115c758b35f0702ee050ddf394189.jpg';
 import image9 from '../Img/6766c96b1eaaa50de992a9ce5b24ee67.jpg';
 import Footer from "../Componente/Footer";
 import Header from "../Componente/Header";

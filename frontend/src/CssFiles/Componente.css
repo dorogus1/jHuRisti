@@ -39,7 +39,7 @@
 
 .play-button {
     position: absolute;
-    bottom: 21px;
+    bottom: 27px;
     right: 10px;
     background: #c66565;
     border: none;
@@ -63,7 +63,7 @@
 /*Cart Button*/
 .cart-button {
     position: absolute;
-    bottom: 21px;
+    bottom: 27px;
     left: 10px;
     background: #c66565;
     border: none;
@@ -104,6 +104,33 @@
 .product-price {
     position: relative;
     z-index: 1;
+}
+
+/* Sound button specific styles */
+.sound-button {
+    left: 85px ;
+    top: 0px !important;
+    width: 55px;
+    height: 55px;
+    z-index: 20;
+}
+
+.sound-button-wrapper {
+    position: relative;
+}
+
+.sound-button.muted .user-button-icon {
+    opacity: 0.6;
+}
+
+.muted-indicator {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 8px;
+    height: 8px;
+    background-color: red;
+    border-radius: 50%;
 }
 
 
