@@ -69,32 +69,7 @@
     z-index: 26;
 }
 
-/* Sound button specific styles */
-.sound-button {
-    left: 85px !important;
-    top: 5px !important;
-    width: 55px;
-    height: 55px;
-    z-index: 20;
-}
 
-.sound-button-wrapper {
-    position: relative;
-}
-
-.sound-button.muted .user-button-icon {
-    opacity: 0.6;
-}
-
-.muted-indicator {
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 8px;
-    height: 8px;
-    background-color: red;
-    border-radius: 50%;
-}
 
 /* Collection button specific */
 .collection-button .user-button-icon {
