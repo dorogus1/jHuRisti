@@ -180,7 +180,18 @@ const CollectionPage: React.FC = () => {
                                         (e.target as HTMLImageElement).src = 'https://via.placeholder.com/300x400?text=No+Image';
                                     }}
                                 />
-                                <CartButtonAdd />
+                                <CartButtonAdd
+                                    productId={product.id}
+                                    quantity={1}
+                                    productDetails={{
+                                        name: product.name,
+                                        price: product.price,
+                                        image: product.image,
+                                        stock: product.stock,
+                                        size: product.size,
+                                        type: product.type
+                                    }}
+                                />
                                 <PlayButton
                                     youtubeId={product.youtubeId}
                                     playingId={playingId}

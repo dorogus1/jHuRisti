@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Footer from "../Componente/Footer";
 import Header from "../Componente/Header";
 import { useNavigate } from 'react-router-dom';
-import '../CssFiles/CollectionPage.css';
+import '../CssFiles/CartPage.css';
 
 interface CartItem {
     id: number;
@@ -68,7 +68,6 @@ const CartPage: React.FC = () => {
     };
 
     const handleCheckout = async () => {
-        // Example checkout process
         try {
             // Here you would normally send the cart to your backend
             for (const item of cartItems) {
@@ -91,7 +90,6 @@ const CartPage: React.FC = () => {
             // Clear cart and navigate to confirmation
             setCartItems([]);
             alert('Checkout successful!');
-            // Navigate to a thank you page or back to collection
             navigate('/collection');
 
         } catch (err) {
@@ -104,7 +102,7 @@ const CartPage: React.FC = () => {
         return (
             <div className="collection-container">
                 <Header />
-                <div style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                <div className="loading-container">
                     <p>Loading cart...</p>
                 </div>
                 <Footer />
@@ -115,141 +113,82 @@ const CartPage: React.FC = () => {
     return (
         <div className="collection-container">
             <Header />
-            <div style={{ flex: 1, padding: '20px', marginTop: '80px' }}>
-                <h1 style={{ textAlign: 'center', marginBottom: '30px' }}>Your Shopping Cart</h1>
+            <div className="cart-container">
+                <h1 className="cart-header">Your Shopping Cart</h1>
 
-                {error && (
-                    <div style={{ padding: '10px', background: '#fff3cd', color: '#856404', margin: '10px 0', borderRadius: '4px' }}>
-                        {error}
-                    </div>
-                )}
+                {error && <div className="error-message">{error}</div>}
 
                 {cartItems.length === 0 ? (
-                    <div style={{ textAlign: 'center', padding: '50px' }}>
+                    <div className="empty-cart">
                         <p>Your cart is empty</p>
                         <button
                             onClick={() => navigate('/collection')}
-                            style={{
-                                padding: '10px 20px',
-                                backgroundColor: '#444',
-                                color: 'white',
-                                border: 'none',
-                                borderRadius: '4px',
-                                cursor: 'pointer',
-                                marginTop: '20px'
-                            }}
+                            className="empty-cart-button"
                         >
                             Continue Shopping
                         </button>
                     </div>
                 ) : (
                     <div>
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                        <div className="cart-items-list">
                             {cartItems.map(item => (
-                                <div key={item.id} style={{
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    padding: '15px',
-                                    border: '1px solid #ddd',
-                                    borderRadius: '4px'
-                                }}>
-                                    <div style={{ width: '100px', height: '100px', overflow: 'hidden', marginRight: '20px' }}>
+                                <div key={item.id} className="cart-item">
+                                    <div className="item-image-container">
                                         <img
                                             src={item.image?.startsWith('http') ? item.image :
                                                 item.image?.startsWith('/') ? `http://localhost:5274${item.image}` :
                                                     'https://via.placeholder.com/100x100?text=No+Image'}
                                             alt={item.name}
-                                            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                                            className="item-image"
                                         />
                                     </div>
 
-                                    <div style={{ flex: 1 }}>
+                                    <div className="item-details">
                                         <h3>{item.name}</h3>
                                         <p>Size: {item.size} | Type: {item.type}</p>
                                         <p>${item.price.toFixed(2)}</p>
                                     </div>
 
-                                    <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                                    <div className="item-quantity-controls">
                                         <button
                                             onClick={() => updateQuantity(item.id, item.quantity - 1)}
                                             disabled={item.quantity <= 1}
-                                            style={{
-                                                width: '30px',
-                                                height: '30px',
-                                                border: 'none',
-                                                background: '#f0f0f0',
-                                                cursor: 'pointer'
-                                            }}
+                                            className="quantity-button"
                                         >-</button>
                                         <span>{item.quantity}</span>
                                         <button
                                             onClick={() => updateQuantity(item.id, item.quantity + 1)}
                                             disabled={item.quantity >= item.stock}
-                                            style={{
-                                                width: '30px',
-                                                height: '30px',
-                                                border: 'none',
-                                                background: '#f0f0f0',
-                                                cursor: 'pointer'
-                                            }}
+                                            className="quantity-button"
                                         >+</button>
                                     </div>
 
-                                    <div style={{ width: '120px', textAlign: 'right', marginLeft: '20px' }}>
-                                        <p style={{ fontWeight: 'bold' }}>${(item.price * item.quantity).toFixed(2)}</p>
+                                    <div className="item-price-actions">
+                                        <p className="item-price">${(item.price * item.quantity).toFixed(2)}</p>
                                         <button
                                             onClick={() => removeItem(item.id)}
-                                            style={{
-                                                padding: '5px 10px',
-                                                backgroundColor: '#dc3545',
-                                                color: 'white',
-                                                border: 'none',
-                                                borderRadius: '4px',
-                                                cursor: 'pointer',
-                                                marginTop: '5px'
-                                            }}
+                                            className="remove-button"
                                         >Remove</button>
                                     </div>
                                 </div>
                             ))}
                         </div>
 
-                        <div style={{
-                            marginTop: '30px',
-                            padding: '20px',
-                            border: '1px solid #ddd',
-                            borderRadius: '4px',
-                            backgroundColor: '#f9f9f9'
-                        }}>
-                            <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #ddd', paddingBottom: '10px' }}>
+                        <div className="cart-summary">
+                            <div className="subtotal-row">
                                 <h3>Subtotal:</h3>
                                 <h3>${calculateSubtotal().toFixed(2)}</h3>
                             </div>
-                            <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '20px' }}>
+                            <div className="action-buttons">
                                 <button
                                     onClick={() => navigate('/collection')}
-                                    style={{
-                                        padding: '10px 20px',
-                                        backgroundColor: '#6c757d',
-                                        color: 'white',
-                                        border: 'none',
-                                        borderRadius: '4px',
-                                        cursor: 'pointer'
-                                    }}
+                                    className="continue-shopping-button"
                                 >
                                     Continue Shopping
                                 </button>
                                 <button
                                     onClick={handleCheckout}
-                                    style={{
-                                        padding: '10px 30px',
-                                        backgroundColor: '#444',
-                                        color: 'white',
-                                        border: 'none',
-                                        borderRadius: '4px',
-                                        cursor: 'pointer',
-                                        fontWeight: 'bold'
-                                    }}
+                                    className="checkout-button"
                                 >
                                     Checkout
                                 </button>
@@ -258,7 +197,6 @@ const CartPage: React.FC = () => {
                     </div>
                 )}
             </div>
-            <div style={{ height: '110px', background: 'transparent' }}></div>
             <Footer />
         </div>
     );
