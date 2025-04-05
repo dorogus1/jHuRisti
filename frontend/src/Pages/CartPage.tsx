@@ -258,6 +258,7 @@ const CartPage: React.FC = () => {
                     </div>
                 )}
             </div>
+            <div style={{ height: '110px', background: 'transparent' }}></div>
             <Footer />
         </div>
     );

@@ -5,33 +5,35 @@ import Header from "../Componente/Header";
 
 const AboutUs: React.FC = () => {
     return (
-        <>
+        <div className="page-wrapper">
             <Header />
-            <div className="container" style={{ paddingTop: "10vh" }}>
-                <h1 className="title">Despre Noi</h1>
+            <main className="page-content">
+                <div className="container" style={{ paddingTop: "10vh" }}>
+                    <h1 className="title">About Us</h1>
 
-                <p className="label">
-                    Suntem o echipă de profesioniști în programare, respectiv HR, care a decis că, începând de azi, realizarea site-ului să fie responsabilitatea exclusivă a departamentului nostru.
-                </p>
-
-                <div>
-                    <h2 className="label">Misiunea Noastră</h2>
-                    <p style={{ textAlign: 'center', maxWidth: '600px' }}>
-                        Să demonstrăm că de data asta HR-ul chiar se apucă de făcut site-ul, nu doar să vorbească despre el.
+                    <p className="label">
+                        We are a team of professionals in HR who decided that starting today, building the website will be the sole responsibility of our department.
                     </p>
-                </div>
 
-                <div>
-                    <h2 className="label">Echipa</h2>
-                    <ul style={{ listStyle: 'none', padding: 0, textAlign: 'center' }}>
-                        <li>Făgădar Marina – Front-with a little spiece of back -end Dev</li>
-                        <li>Marogel Dragoș – Backend Dev</li>
-                        <li>Cîrjaliu Diana – Frontend Dev</li>
-                    </ul>
+                    <div>
+                        <h2 className="label">Our Mission</h2>
+                        <p style={{ textAlign: 'center', maxWidth: '600px', margin: '0 auto' }}>
+                            To prove that this time, HR is actually going to build the website—not just talk about it.
+                        </p>
+                    </div>
+
+                    <div>
+                        <h2 className="label">The Team</h2>
+                        <ul style={{ listStyle: 'none', padding: 0, textAlign: 'center' }}>
+                            <li>Făgădar Marina – Front-end (with a little spice of Back-end)</li>
+                            <li>Marogel Dragoș – Back-end Developer</li>
+                            <li>Cîrjaliu Diana – Front-end Developer</li>
+                        </ul>
+                    </div>
                 </div>
-            </div>
+            </main>
             <Footer />
-        </>
+        </div>
     );
 };
 
