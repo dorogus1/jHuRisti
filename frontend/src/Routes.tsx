@@ -7,6 +7,11 @@ import React from "react";
 import CollectionPage from "./Pages/CollectionPage";
 import AddProduct from "./Pages/AddProduct";
 import CartPage from "./Pages/CartPage";
+import AboutUsPage from "./Pages/AboutUsPage";
+import ContactPage from "./Pages/ContactPage";
+import QuestionPage from "./Pages/QuestionPage";
+import TermsAndConditionsPage from "./Pages/TermsAndConditionsPage";
+import PrivacyAndCookiePolicyPage from "./Pages/PrivacyAndCookiePolicyPage";
 
 
 const AppRoutes =() =>{
@@ -21,6 +26,11 @@ const AppRoutes =() =>{
                 <Route path="/collection" element={<CollectionPage />} />
                 <Route path="/add-product" element={<AddProduct />} />
                 <Route path="/cart-page" element={<CartPage />} />
+                <Route path="/about" element={<AboutUsPage />} />
+                <Route path="/contact" element={<ContactPage />} />
+                <Route path="/questions" element={<QuestionPage />} />
+                <Route path="/termsofuse" element={<TermsAndConditionsPage />} />
+                <Route path="/privacy" element={<PrivacyAndCookiePolicyPage />} />
             </Routes>
         </Router>
     );

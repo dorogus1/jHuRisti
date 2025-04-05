@@ -34,7 +34,7 @@ const LoginPage: React.FC = () => {
             < Header />
             <div className="container" style={{ paddingTop: "10vh" }}>
                 <h1 className="title">SIGN IN/REGISTER</h1>
-                <p className="label">Username or Email</p>
+               <p className="label">Username or Email</p>
                 <input
                     type="text"
                     name="usernameOrEmail"
