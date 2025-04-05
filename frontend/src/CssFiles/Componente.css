@@ -109,9 +109,9 @@
 /* Sound button specific styles */
 .sound-button {
     left: 85px ;
-    top: 0px !important;
-    width: 55px;
-    height: 55px;
+    top: -3px !important;
+    width: 35px;
+    height: 35px;
     z-index: 20;
 }
 
@@ -121,6 +121,19 @@
 
 .sound-button.muted .user-button-icon {
     opacity: 0.6;
+}
+
+.user-button-container.theme-button,
+.user-button-container.sound-button {
+    width: 45px;
+    height: 45px;
+}
+
+/* Ensure icons scale properly */
+.user-button-container.theme-button img,
+.user-button-container.sound-button img {
+    width: 100%;
+    height: 100%;
 }
 
 .muted-indicator {
