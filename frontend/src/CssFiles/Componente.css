@@ -39,7 +39,7 @@
 
 .play-button {
     position: absolute;
-    bottom: 50px;
+    bottom: 21px;
     right: 10px;
     background: #c66565;
     border: none;
@@ -63,9 +63,10 @@
 /*Cart Button*/
 .cart-button {
     position: absolute;
-    bottom: 50px;
+    bottom: 21px;
     left: 10px;
     background: #c66565;
+    border: none;
     border-radius: 50%;
     width: 35px;
     height: 35px;

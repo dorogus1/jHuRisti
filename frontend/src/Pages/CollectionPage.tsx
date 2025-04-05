@@ -3,9 +3,9 @@ import Footer from "../Componente/Footer";
 import Header from "../Componente/Header";
 import '../CssFiles/CollectionPage.css';
 import PlayButton from '../Componente/PlayButton';
-import {CartButtonAdd} from "../Componente/CartButtonAdd";
+import { useSound } from '../Context/SoundContext';
+import { CartButtonAdd } from "../Componente/CartButtonAdd";
 
-// Define product interface based on Storage.cs model
 interface Product {
     id: number;
     name: string;
@@ -23,27 +23,23 @@ const CollectionPage: React.FC = () => {
     const [products, setProducts] = useState<Product[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
-
     const [filters, setFilters] = useState({
         type: "",
         size: "",
         inStock: false,
         priceRange: "",
     });
-
     const [playingId, setPlayingId] = useState<string | null>(null);
     const audioPlayerRef = useRef<HTMLIFrameElement | null>(null);
+    const { setResetPlayStateCallback } = useSound();
 
-    // Fetch products when component mounts
     useEffect(() => {
         const fetchProducts = async () => {
             try {
                 const response = await fetch('http://localhost:5274/api/product/products');
-
                 if (!response.ok) {
                     throw new Error(`Error ${response.status}: ${response.statusText}`);
                 }
-
                 const data = await response.json();
                 setProducts(data);
                 setLoading(false);
@@ -53,26 +49,34 @@ const CollectionPage: React.FC = () => {
                 setLoading(false);
             }
         };
-
         fetchProducts();
     }, []);
 
+    useEffect(() => {
+        const resetPlayback = () => {
+            setPlayingId(null);
+            if (audioPlayerRef.current && audioPlayerRef.current.parentNode) {
+                audioPlayerRef.current.parentNode.removeChild(audioPlayerRef.current);
+                audioPlayerRef.current = null;
+            }
+        };
+        setResetPlayStateCallback(resetPlayback);
+        return () => {
+            setResetPlayStateCallback(() => {});
+        };
+    }, [setResetPlayStateCallback]);
+
     const handlePlay = (youtubeId: string) => {
         if (playingId === youtubeId) {
-            // If clicking the same product, stop playing
             if (audioPlayerRef.current && audioPlayerRef.current.parentNode) {
                 audioPlayerRef.current.parentNode.removeChild(audioPlayerRef.current);
                 audioPlayerRef.current = null;
             }
             setPlayingId(null);
         } else {
-            // If clicking a different product or nothing was playing
-            // First, remove any existing players
             if (audioPlayerRef.current && audioPlayerRef.current.parentNode) {
                 audioPlayerRef.current.parentNode.removeChild(audioPlayerRef.current);
             }
-
-            // Create hidden iframe for audio
             const iframe = document.createElement('iframe');
             iframe.style.width = '0';
             iframe.style.height = '0';
@@ -82,7 +86,6 @@ const CollectionPage: React.FC = () => {
             iframe.style.left = '-9999px';
             iframe.allow = 'autoplay';
             iframe.src = `https://www.youtube.com/embed/${youtubeId}?autoplay=1&controls=0&showinfo=0&autohide=1`;
-
             document.body.appendChild(iframe);
             audioPlayerRef.current = iframe;
             setPlayingId(youtubeId);
@@ -97,23 +100,18 @@ const CollectionPage: React.FC = () => {
             filters.priceRange === "" ||
             (filters.priceRange === "0-50" && product.price <= 50) ||
             (filters.priceRange === "50-100" && product.price > 50 && product.price <= 100);
-
         return matchType && matchSize && matchStock && matchPrice;
     });
 
     const handleMouseEnter = (e: React.MouseEvent<HTMLDivElement>) => {
         const image = e.currentTarget.querySelector('img') as HTMLImageElement;
         if (image) image.style.transform = "scale(1.1)";
-
         const text = e.currentTarget.querySelector('.product-title') as HTMLHeadingElement;
         if (text) text.style.transform = "translateY(+20px)";
-
         const price = e.currentTarget.querySelector('.product-price') as HTMLParagraphElement;
         if (price) price.style.transform = "translateY(+20px)";
-
         const playbutton = e.currentTarget.querySelector('.play-button') as HTMLButtonElement;
         if (playbutton) playbutton.style.transform = "translateY(+20px)";
-
         const cartButton = e.currentTarget.querySelector('.cart-button') as HTMLButtonElement;
         if (cartButton) cartButton.style.transform = "translateY(+20px)";
     };
@@ -121,19 +119,14 @@ const CollectionPage: React.FC = () => {
     const handleMouseLeave = (e: React.MouseEvent<HTMLDivElement>) => {
         const playBtn = e.currentTarget.querySelector('.play-btn') as HTMLButtonElement;
         if (playBtn) playBtn.style.opacity = "0";
-
         const image = e.currentTarget.querySelector('img') as HTMLImageElement;
         if (image) image.style.transform = "scale(1)";
-
         const text = e.currentTarget.querySelector('.product-title') as HTMLHeadingElement;
         if (text) text.style.transform = "translateY(-0px)";
-
         const price = e.currentTarget.querySelector('.product-price') as HTMLParagraphElement;
         if (price) price.style.transform = "translateY(-0px)";
-
         const playbutton = e.currentTarget.querySelector('.play-button') as HTMLButtonElement;
         if (playbutton) playbutton.style.transform = "translateY(+0px)";
-
         const cartButton = e.currentTarget.querySelector('.cart-button') as HTMLButtonElement;
         if (cartButton) cartButton.style.transform = "translateY(0px)";
     };
@@ -184,7 +177,6 @@ const CollectionPage: React.FC = () => {
                                     alt={product.name}
                                     className={`product-image ${playingId === product.youtubeId ? 'playing' : ''}`}
                                     onError={(e) => {
-                                        // Fallback image if the product image fails to load
                                         (e.target as HTMLImageElement).src = 'https://via.placeholder.com/300x400?text=No+Image';
                                     }}
                                 />
