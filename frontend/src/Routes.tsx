@@ -6,7 +6,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import React from "react";
 import CollectionPage from "./Pages/CollectionPage_Edit";
 import AddProduct from "./Pages/AddProduct";
-
+import CartPage from "./Pages/CartPage";
 
 
 const AppRoutes =() =>{
@@ -20,6 +20,7 @@ const AppRoutes =() =>{
                 <Route path="/verify-email" element={<VerifyEmailPage />} />
                 <Route path="/collection" element={<CollectionPage />} />
                 <Route path="/add-product" element={<AddProduct />} />
+                <Route path="/cart-page" element={<CartPage />} />
             </Routes>
         </Router>
     );
