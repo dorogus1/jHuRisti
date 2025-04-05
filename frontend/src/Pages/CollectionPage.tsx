@@ -1,16 +1,15 @@
-// frontend/src/Pages/CollectionPage.tsx
 import React, { useState, useRef, useEffect } from 'react';
 import Footer from "../Componente/Footer";
 import Header from "../Componente/Header";
 import '../CssFiles/CollectionPage.css';
 import PlayButton from '../Componente/PlayButton';
-import { useSound } from "../Context/SoundContext";
-import CartButtonAdd from "../Componente/CartButtonAdd";
+import {CartButtonAdd} from "../Componente/CartButtonAdd";
 
+// Define product interface based on Storage.cs model
 interface Product {
     id: number;
     name: string;
-    description?: string;
+    description: string;
     size: string;
     type: string;
     stock: number;
@@ -24,6 +23,7 @@ const CollectionPage: React.FC = () => {
     const [products, setProducts] = useState<Product[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+
     const [filters, setFilters] = useState({
         type: "",
         size: "",
@@ -34,45 +34,45 @@ const CollectionPage: React.FC = () => {
     const [playingId, setPlayingId] = useState<string | null>(null);
     const audioPlayerRef = useRef<HTMLIFrameElement | null>(null);
 
-    const { isMuted } = useSound();
-
+    // Fetch products when component mounts
     useEffect(() => {
-        if (audioPlayerRef.current && audioPlayerRef.current.contentWindow) {
-            const command = isMuted ? 'mute' : 'unMute';
-            audioPlayerRef.current.contentWindow.postMessage(
-                `{"event":"command","func":"${command}","args":""}`,
-                '*'
-            );
-        }
-    }, [isMuted]);
+        const fetchProducts = async () => {
+            try {
+                const response = await fetch('http://localhost:5274/api/product/products');
 
-    const fetchProducts = async () => {
-        try {
-            const response = await fetch('http://localhost:5274/api/product/products');
-            if (!response.ok) {
-                throw new Error(`Error ${response.status}: ${response.statusText}`);
+                if (!response.ok) {
+                    throw new Error(`Error ${response.status}: ${response.statusText}`);
+                }
+
+                const data = await response.json();
+                setProducts(data);
+                setLoading(false);
+            } catch (err) {
+                console.error('Error fetching products:', err);
+                setError(err instanceof Error ? err.message : 'Failed to load products');
+                setLoading(false);
             }
-            const data = await response.json();
-            setProducts(data);
-            setLoading(false);
-        } catch (err) {
-            console.error('Error fetching products:', err);
-            setError('Failed to load products');
-        }
-    };
+        };
+
+        fetchProducts();
+    }, []);
 
     const handlePlay = (youtubeId: string) => {
         if (playingId === youtubeId) {
+            // If clicking the same product, stop playing
             if (audioPlayerRef.current && audioPlayerRef.current.parentNode) {
                 audioPlayerRef.current.parentNode.removeChild(audioPlayerRef.current);
                 audioPlayerRef.current = null;
             }
             setPlayingId(null);
         } else {
+            // If clicking a different product or nothing was playing
+            // First, remove any existing players
             if (audioPlayerRef.current && audioPlayerRef.current.parentNode) {
                 audioPlayerRef.current.parentNode.removeChild(audioPlayerRef.current);
             }
 
+            // Create hidden iframe for audio
             const iframe = document.createElement('iframe');
             iframe.style.width = '0';
             iframe.style.height = '0';
@@ -81,17 +81,11 @@ const CollectionPage: React.FC = () => {
             iframe.style.top = '-9999px';
             iframe.style.left = '-9999px';
             iframe.allow = 'autoplay';
-            iframe.src = `https://www.youtube.com/embed/${youtubeId}?autoplay=1&controls=0&showinfo=0&autohide=1&enablejsapi=1`;
+            iframe.src = `https://www.youtube.com/embed/${youtubeId}?autoplay=1&controls=0&showinfo=0&autohide=1`;
 
             document.body.appendChild(iframe);
             audioPlayerRef.current = iframe;
             setPlayingId(youtubeId);
-
-            iframe.onload = () => {
-                if (iframe.contentWindow && isMuted) {
-                    iframe.contentWindow.postMessage('{"event":"command","func":"mute","args":""}', '*');
-                }
-            };
         }
     };
 
@@ -119,6 +113,9 @@ const CollectionPage: React.FC = () => {
 
         const playbutton = e.currentTarget.querySelector('.play-button') as HTMLButtonElement;
         if (playbutton) playbutton.style.transform = "translateY(+20px)";
+
+        const cartbutton = e.currentTarget.querySelector('.cart-button') as HTMLButtonElement;
+        if (cartbutton) cartbutton.style.transform = "translateY(+20px)";
     };
 
     const handleMouseLeave = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -136,15 +133,14 @@ const CollectionPage: React.FC = () => {
 
         const playbutton = e.currentTarget.querySelector('.play-button') as HTMLButtonElement;
         if (playbutton) playbutton.style.transform = "translateY(+0px)";
+
+        const cartbutton = e.currentTarget.querySelector('.cart-button') as HTMLButtonElement;
+        if (cartbutton) cartbutton.style.transform = "translateY(0px)";
     };
 
     const handleFilterChange = (newFilters: typeof filters) => {
         setFilters(newFilters);
     };
-
-    useEffect(() => {
-        fetchProducts();
-    }, []);
 
     if (loading) {
         return (
@@ -158,16 +154,22 @@ const CollectionPage: React.FC = () => {
         );
     }
 
+    if (error) {
+        return (
+            <div className="collection-container">
+                <Header showFilterButton={true} onFilterChange={handleFilterChange} />
+                <div style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                    <p>Error: {error}</p>
+                </div>
+                <Footer />
+            </div>
+        );
+    }
+
     return (
         <div className="collection-container">
             <Header showFilterButton={true} onFilterChange={handleFilterChange} />
             <div style={{ flex: 1 }}>
-                {error && (
-                    <div style={{ padding: '10px', background: '#fff3cd', color: '#856404', margin: '10px 0', borderRadius: '4px' }}>
-                        {error}
-                    </div>
-                )}
-
                 <div className="products-grid">
                     {filteredProducts.length > 0 ? (
                         filteredProducts.map((product) => (
@@ -178,21 +180,20 @@ const CollectionPage: React.FC = () => {
                                 onMouseLeave={handleMouseLeave}
                             >
                                 <img
-                                    src={product.image || 'https://via.placeholder.com/300x400?text=No+Image'}
+                                    src={`http://localhost:5274${product.image}`}
                                     alt={product.name}
                                     className={`product-image ${playingId === product.youtubeId ? 'playing' : ''}`}
                                     onError={(e) => {
+                                        // Fallback image if the product image fails to load
                                         (e.target as HTMLImageElement).src = 'https://via.placeholder.com/300x400?text=No+Image';
                                     }}
                                 />
-                                <div>
-                                    <CartButtonAdd />
-                                    <PlayButton
-                                        youtubeId={product.youtubeId}
-                                        playingId={playingId}
-                                        onPlay={handlePlay}
-                                    />
-                                </div>
+                                < CartButtonAdd />
+                                <PlayButton
+                                    youtubeId={product.youtubeId}
+                                    playingId={playingId}
+                                    onPlay={handlePlay}
+                                />
                                 <h2 className="product-title">{product.name}</h2>
                                 <p className="product-price">${product.price.toFixed(2)}</p>
                             </div>
@@ -203,8 +204,8 @@ const CollectionPage: React.FC = () => {
                         </div>
                     )}
                 </div>
+                <Footer />
             </div>
-            <Footer />
         </div>
     );
 };

@@ -61,7 +61,26 @@
 }
 
 .cart-button {
+    position: absolute;
+    bottom: 50px;
+    left: 10px;
+    background: #c66565;
+    border: none;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    color: white;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    z-index: 2;
+}
+
+.cart-button:hover {
+    transform: scale(1.1);
+    background: #e3411e;
 }
 
 .cart-button img {
@@ -85,5 +104,14 @@
 }
 
 .dark-mode .play-button:hover {
+    background: #878686;
+}
+
+.dark-mode .cart-button {
+    background: #6c6767;
+}
+
+.dark-mode .cart-button:hover {
+    transform: scale(1.1);
     background: #878686;
 }

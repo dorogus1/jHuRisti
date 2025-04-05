@@ -123,12 +123,12 @@
     cursor: pointer;
 }
 
-/* Filter styles */
 .filter-container {
     position: relative;
 }
 
 .filter-button {
+    padding: 0;
     position: absolute;
     top: 70px;
     left: 20px;
@@ -136,6 +136,9 @@
     border-radius: 5px;
     cursor: pointer;
     z-index: 30;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
     width: 70px;
     height: 70px;
     background-color: transparent;
@@ -159,6 +162,7 @@
     text-align: center;
     margin-bottom: 10px;
     font-size: 20px;
+    margin-top: 0px;
     color: #333;
 }
 

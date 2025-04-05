@@ -1,17 +1,26 @@
-import React from 'react';
-import cartImage from '../Pictures/BlackShopCart.png';
+import React, {useEffect, useState} from 'react';
+import DarkMode from "../Pictures/WhiteShopCart.png";
 
-const CartButtonAdd: React.FC = () => {
-    const handleCartClick = (e: React.MouseEvent) => {
-        e.stopPropagation();
-        alert('Cart button clicked!');
-    };
+export function CartButtonAdd() {
+    const [isHovered, setIsHovered] = useState(false);
+
 
     return (
-        <div className="cart-button" onClick={handleCartClick}>
-            <img src={cartImage} alt="Cart" />
-        </div>
-    );
-};
+        <>
+            {isHovered && <div className="user-button-hover-overlay" />}
 
-export default CartButtonAdd;
+            <div
+                className="cart-button"
+                onMouseEnter={() => setIsHovered(true)}
+                onMouseLeave={() => setIsHovered(false)}
+                //onClick={handleClick}
+            >
+                <img
+                    src={DarkMode}
+                    alt="User Icon"
+                    className="user-button-icon"
+                />
+            </div>
+        </>
+    );
+}
