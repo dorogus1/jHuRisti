@@ -11,6 +11,9 @@ import image9 from '../Img/2afe38ade37de829b765f44b819831c6.jpg';
 import image10 from '../Img/img.png';
 import image11 from '../Img/img_1.png';
 import image12 from '../Img/img_2.png';
+import image13 from '../Img/img_3.png';
+import image14 from '../Img/img_4.png';
+import image15 from '../Img/img_5.png';
 import Footer from "../Componente/Footer";
 import Header from "../Componente/Header";
 import '../CssFiles/CollectionPage.css';
@@ -29,6 +32,9 @@ const products = [
     { id: 10, name: "Note to self: never take fashion advice from a potato", image: image10, price: "$100.00", priceValue: 100, type: "Men", size: "M", inStock: true, youtubeId: "tgbNymZ7vqY" },
     { id: 11, name: "Dressed like I have somewhere cooler to be", image: image11, price: "$25.00", priceValue: 25, type: "Men", size: "L", inStock: true, youtubeId: "hTWKbfoikeg" },
     { id: 12, name: "Style so good, it's laughable", image: image12, price: "$15.00", priceValue: 15, type: "Men", size: "S", inStock: true, youtubeId: "YJVmu6yttiw" },
+    { id: 13, name: "I'm a potato", image: image13, price: "$80.00", priceValue: 10, type: "Women", size: "M", inStock: true, youtubeId: "0KSOMA3QBU0"},
+    { id:14, name:"Heavy Loads",image:image14, price:"$100.00", priceValue: 100, type:"Men", size:"M", inStock:false, youtubeId:"tgbNymZ7vqY"},
+    { id:15, name:"Rock your hat away",image:image15, price:"$120.00", priceValue: 100, type:"Men", size:"XL", inStock:true, youtubeId:"tgbNymZ7vqY"},
 ];
 
 const CollectionPage: React.FC = () => {
