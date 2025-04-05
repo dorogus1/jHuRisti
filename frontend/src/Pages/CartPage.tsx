@@ -15,10 +15,16 @@ interface CartItem {
     type: string;
 }
 
+interface StockCheckResponse {
+    available: boolean;
+    stock: number;
+}
+
 const CartPage: React.FC = () => {
     const [cartItems, setCartItems] = useState<CartItem[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const [isProcessing, setIsProcessing] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -67,34 +73,100 @@ const CartPage: React.FC = () => {
         return cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
     };
 
-    const handleCheckout = async () => {
+    const checkStockAvailability = async (): Promise<boolean> => {
         try {
-            // Here you would normally send the cart to your backend
-            for (const item of cartItems) {
-                const response = await fetch('http://localhost:5274/api/cart/add', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
+            const stockChecks = await Promise.all(
+                cartItems.map(async (item) => {
+                    const response = await fetch(`http://localhost:5274/api/cart/check-availability/${item.id}`);
+                    if (!response.ok) {
+                        throw new Error(`Failed to check stock for ${item.name}`);
+                    }
+                    const data: StockCheckResponse = await response.json();
+                    return {
                         id: item.id,
-                        quantity: item.quantity
-                    }),
-                });
+                        name: item.name,
+                        requested: item.quantity,
+                        available: data.stock,
+                        hasEnough: data.stock >= item.quantity
+                    };
+                })
+            );
 
-                if (!response.ok) {
-                    throw new Error(`Failed to checkout item: ${item.name}`);
-                }
+            const outOfStockItems = stockChecks.filter(item => !item.hasEnough);
+
+            if (outOfStockItems.length > 0) {
+                const itemMessages = outOfStockItems.map(item =>
+                    `${item.name}: requested ${item.requested}, only ${item.available} available`
+                );
+                setError(`Some items are out of stock:\n${itemMessages.join('\n')}`);
+
+                // Update cart with current stock levels
+                setCartItems(prevItems =>
+                    prevItems.map(item => {
+                        const stockCheck = stockChecks.find(sc => sc.id === item.id);
+                        if (stockCheck) {
+                            return { ...item, stock: stockCheck.available };
+                        }
+                        return item;
+                    })
+                );
+
+                return false;
             }
+
+            return true;
+        } catch (err) {
+            console.error('Stock check error:', err);
+            setError(err instanceof Error ? err.message : 'Failed to check stock availability');
+            return false;
+        }
+    };
+
+    const handleCheckout = async () => {
+        setError(null);
+        setIsProcessing(true);
+
+        try {
+            // Check stock before proceeding
+            const stockAvailable = await checkStockAvailability();
+            if (!stockAvailable) {
+                setIsProcessing(false);
+                return;
+            }
+
+            // Process each item in the cart
+            const checkoutResults = await Promise.all(
+                cartItems.map(async (item) => {
+                    const response = await fetch('http://localhost:5274/api/cart/add', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            id: item.id,
+                            quantity: item.quantity
+                        }),
+                    });
+
+                    if (!response.ok) {
+                        const errorText = await response.text();
+                        throw new Error(`Failed to checkout item: ${item.name}. ${errorText}`);
+                    }
+
+                    return await response.json();
+                })
+            );
 
             // Clear cart and navigate to confirmation
             setCartItems([]);
-            alert('Checkout successful!');
+            alert('Checkout successful! Thank you for your purchase.');
             navigate('/collection');
 
         } catch (err) {
             console.error('Checkout error:', err);
             setError(err instanceof Error ? err.message : 'Checkout failed');
+        } finally {
+            setIsProcessing(false);
         }
     };
 
@@ -188,9 +260,10 @@ const CartPage: React.FC = () => {
                                 </button>
                                 <button
                                     onClick={handleCheckout}
+                                    disabled={isProcessing}
                                     className="checkout-button"
                                 >
-                                    Checkout
+                                    {isProcessing ? 'Processing...' : 'Checkout'}
                                 </button>
                             </div>
                         </div>
