@@ -6,16 +6,12 @@
     left: 50%;
     transform: translateX(-50%);
     top: 15px;
-    width: auto;
     height: 60px;
-    padding: 0;
     z-index: 20;
 }
 
 .text-header-logo {
     width: 120px;
-    height: auto;
-    display: block;
     cursor: pointer;
 }
 
@@ -26,12 +22,6 @@
 .theme-button:hover {
     transform: scale(1.55);
     transition: transform 0.3s ease;
-}
-
-.text-header-hover-overlay,
-.user-button-hover-overlay,
-.header-hover-overlay {
-    display: none;
 }
 
 /* Common header styles */
@@ -62,18 +52,15 @@
     width: 55px;
     height: 55px;
     z-index: 20;
-    overflow: hidden;
 }
 
 /* Login button specific styles */
 .user-button-container.login-button {
-    position: absolute;
     top: 25px;
     right: 35px;
     width: 35px;
     height: 35px;
     z-index: 25;
-    overflow: visible;
 }
 
 .login-button .user-button-icon {
@@ -91,8 +78,22 @@
     z-index: 20;
 }
 
-.sound-button.muted {
+.sound-button-wrapper {
+    position: relative;
+}
+
+.sound-button.muted .user-button-icon {
     opacity: 0.6;
+}
+
+.muted-indicator {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 8px;
+    height: 8px;
+    background-color: red;
+    border-radius: 50%;
 }
 
 /* Collection button specific */
@@ -100,7 +101,6 @@
     width: 75px;
     height: 75px;
     cursor: pointer;
-    pointer-events: auto;
 }
 
 .collection-button {
@@ -121,7 +121,6 @@
     width: 55px;
     height: 55px;
     cursor: pointer;
-    pointer-events: auto;
 }
 
 /* Filter styles */
@@ -130,7 +129,6 @@
 }
 
 .filter-button {
-    padding: 0;
     position: absolute;
     top: 70px;
     left: 20px;
@@ -138,9 +136,6 @@
     border-radius: 5px;
     cursor: pointer;
     z-index: 30;
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
     width: 70px;
     height: 70px;
     background-color: transparent;
@@ -164,7 +159,6 @@
     text-align: center;
     margin-bottom: 10px;
     font-size: 20px;
-    margin-top: 0px;
     color: #333;
 }
 
@@ -215,6 +209,26 @@
 .footer-logo {
     flex: 1;
 }
+/*Cart Button*/
+.cart-button {
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 10;
+}
+
+.cart-button img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+.product-card {
+    position: relative;
+}
+
 
 .footer-logo-image {
     width: 150px;
@@ -239,6 +253,7 @@
     background-position: center;
 }
 
+
 /* Dark mode styles */
 body.dark-mode {
     background-color: #1a1a1a;
@@ -247,12 +262,6 @@ body.dark-mode {
 
 .dark-mode .header-container {
     background: linear-gradient(180deg, #6c6767 20%, transparent 100%);
-}
-
-.dark-mode .text-header-hover-overlay,
-.dark-mode .user-button-hover-overlay,
-.dark-mode .header-hover-overlay {
-    background: linear-gradient(180deg, #878686 70%, transparent 100%);
 }
 
 .dark-mode .footer-container {
