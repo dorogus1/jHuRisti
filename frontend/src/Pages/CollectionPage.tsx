@@ -34,7 +34,7 @@ const CollectionPage: React.FC = () => {
     const [playingId, setPlayingId] = useState<string | null>(null);
     const audioPlayerRef = useRef<HTMLIFrameElement | null>(null);
 
-    const { isMuted } = useSound();
+    const { isMuted, resetPlayState, setResetPlayStateCallback } = useSound();
 
     useEffect(() => {
         if (audioPlayerRef.current && audioPlayerRef.current.contentWindow) {
@@ -45,6 +45,36 @@ const CollectionPage: React.FC = () => {
             );
         }
     }, [isMuted]);
+
+    useEffect(() => {
+        const resetPlayback = () => {
+            console.log('resetPlayback called');
+            setPlayingId(null);
+            if (audioPlayerRef.current) {
+                try {
+                    if (audioPlayerRef.current.parentNode) {
+                        audioPlayerRef.current.parentNode.removeChild(audioPlayerRef.current);
+                    }
+                } catch (err) {
+                    console.log('Error removing iframe:', err);
+                }
+                audioPlayerRef.current = null;
+            }
+            document.querySelectorAll('iframe').forEach((iframe) => {
+                if (iframe.src.includes('youtube.com') && iframe.parentNode) {
+                    iframe.parentNode.removeChild(iframe);
+                }
+            });
+        };
+
+        setResetPlayStateCallback(resetPlayback);
+
+        return () => {
+            setResetPlayStateCallback(() => {});
+        };
+    }, [setResetPlayStateCallback]);
+
+
 
     const fetchProducts = async () => {
         try {
@@ -159,6 +189,7 @@ const CollectionPage: React.FC = () => {
     }
 
     return (
+
         <div className="collection-container">
             <Header showFilterButton={true} onFilterChange={handleFilterChange} />
             <div style={{ flex: 1 }}>
@@ -178,14 +209,15 @@ const CollectionPage: React.FC = () => {
                                 onMouseLeave={handleMouseLeave}
                             >
                                 <img
-                                    src={product.image || 'https://via.placeholder.com/300x400?text=No+Image'}
+                                    src={`http://localhost:5274${product.image}`}
                                     alt={product.name}
                                     className={`product-image ${playingId === product.youtubeId ? 'playing' : ''}`}
                                     onError={(e) => {
+                                        // Fallback image if the product image fails to load
                                         (e.target as HTMLImageElement).src = 'https://via.placeholder.com/300x400?text=No+Image';
                                     }}
                                 />
-                                <div>
+                                <div className="product-details">
                                     <CartButtonAdd />
                                     <PlayButton
                                         youtubeId={product.youtubeId}
