@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
 /* TextHeader styles */
 .text-header-container {
     position: absolute;
@@ -98,13 +99,22 @@
 }
 
 .filter-button {
-    padding: 10px;
+    padding: 0;
     position: absolute;
     top: 0px;
     left: 10px;
+    border: none;
     border-radius: 5px;
     cursor: pointer;
     z-index: 20;
+
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+
+    width: 50px;
+    height: 50px;
+    background-color: transparent;
 }
 
 .filter-dropdown {
@@ -121,6 +131,7 @@
 }
 
 .filter-title {
+    font-family: 'Bebas Neue', Arial, sans-serif;
     text-align: center;
     margin-bottom: 10px;
     font-size: 20px;
@@ -128,11 +139,22 @@
     color: #333;
 }
 
+body.dark-mode .filter-title {
+    color: #fff; /* Text alb pentru dark mode */
+}
+
+
 .filter-label {
-    font-size: 14px;
-    display: block;
-    margin-bottom: 5px;
-    text-align: left;
+    font-family: 'Bebas Neue', Arial, sans-serif; /* Font urban/street */
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 16px;
+    color: #000;
+    letter-spacing: 1px;
+}
+
+body.dark-mode .filter-label {
+    color: #fff; /* Text alb pentru dark mode */
 }
 
 .filter-select {
