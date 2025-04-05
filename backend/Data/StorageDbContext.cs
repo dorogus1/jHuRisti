@@ -6,6 +6,7 @@ public class StorageDbContext : DbContext
         : base(options)
     {
     }
-
     public DbSet<Storage> Products { get; set; } = null!;
+    public DbSet<Order> Orders { get; set; }
+    public DbSet<OrderItem> OrderItems { get; set; }
 }

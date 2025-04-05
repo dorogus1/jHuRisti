@@ -1,231 +1,266 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import Footer from "../Componente/Footer";
 import Header from "../Componente/Header";
 import { useNavigate } from 'react-router-dom';
+import '../CssFiles/CollectionPage.css';
 
-const AddProduct: React.FC = () => {
-    const [productName, setProductName] = useState("");
-    const [productPrice, setProductPrice] = useState("");
-    const [productImage, setProductImage] = useState<File | null>(null);
-    const [productStock, setProductStock] = useState("");
-    const [productYoutubeId, setProductYoutubeId] = useState("");
-    const [productType, setType] = useState("");
-    const [productSize, setSize] = useState("");
-    const [isDragging, setIsDragging] = useState(false);
-    const [imagePreview, setImagePreview] = useState<string | null>(null);
+interface CartItem {
+    id: number;
+    name: string;
+    price: number;
+    image: string | null;
+    quantity: number;
+    stock: number;
+    size: string;
+    type: string;
+}
 
-    const fileInputRef = useRef<HTMLInputElement>(null);
+const CartPage: React.FC = () => {
+    const [cartItems, setCartItems] = useState<CartItem[]>([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
     const navigate = useNavigate();
 
-    const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
-        e.preventDefault();
-        setIsDragging(true);
-    };
-
-    const handleDragLeave = (e: React.DragEvent<HTMLDivElement>) => {
-        e.preventDefault();
-        setIsDragging(false);
-    };
-
-    const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
-        e.preventDefault();
-        setIsDragging(false);
-
-        if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
-            handleImageChange(e.dataTransfer.files[0]);
-        }
-    };
-
-    const handleImageChange = (file: File) => {
-        setProductImage(file);
-
-        const reader = new FileReader();
-        reader.onload = () => {
-            setImagePreview(reader.result as string);
+    useEffect(() => {
+        // Load cart items from localStorage
+        const loadCartFromStorage = () => {
+            try {
+                const savedCart = localStorage.getItem('cart');
+                if (savedCart) {
+                    setCartItems(JSON.parse(savedCart));
+                }
+                setLoading(false);
+            } catch (err) {
+                console.error('Error loading cart:', err);
+                setError('Failed to load your cart items');
+                setLoading(false);
+            }
         };
-        reader.readAsDataURL(file);
+
+        loadCartFromStorage();
+    }, []);
+
+    // Save cart to localStorage whenever it changes
+    useEffect(() => {
+        if (!loading) {
+            localStorage.setItem('cart', JSON.stringify(cartItems));
+        }
+    }, [cartItems, loading]);
+
+    const updateQuantity = (itemId: number, newQuantity: number) => {
+        if (newQuantity < 1) return;
+
+        setCartItems(prevItems =>
+            prevItems.map(item =>
+                item.id === itemId
+                    ? { ...item, quantity: Math.min(newQuantity, item.stock) }
+                    : item
+            )
+        );
     };
 
-    const handleSubmit = async () => {
+    const removeItem = (itemId: number) => {
+        setCartItems(prevItems => prevItems.filter(item => item.id !== itemId));
+    };
+
+    const calculateSubtotal = () => {
+        return cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    };
+
+    const handleCheckout = async () => {
+        // Example checkout process
         try {
-            const formData = new FormData();
-            formData.append("Name", productName);
-            formData.append("Price", productPrice);
-            if (productImage) {
-                formData.append("Image", productImage);
-            }
-            formData.append("Stock", productStock);
-            formData.append("YoutubeId", productYoutubeId);  // This matches the ProductViewModel property
-            formData.append("Type", productType);
-            formData.append("Size", productSize);
+            // Here you would normally send the cart to your backend
+            for (const item of cartItems) {
+                const response = await fetch('http://localhost:5274/api/cart/add', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        id: item.id,
+                        quantity: item.quantity
+                    }),
+                });
 
-            // For debugging, log the form data
-            console.log("Sending form data:", {
-                name: productName,
-                price: productPrice,
-                stock: productStock,
-                youtubeId: productYoutubeId,
-                type: productType,
-                size: productSize,
-                hasImage: !!productImage
-            });
-
-            const response = await fetch("http://localhost:5274/api/product/add-product", {
-                method: "POST",
-                body: formData
-            });
-
-            if (!response.ok) {
-                const errorText = await response.text();
-                console.error(`Server responded with ${response.status}: ${errorText}`);
-                throw new Error(`Error: ${response.status}`);
+                if (!response.ok) {
+                    throw new Error(`Failed to checkout item: ${item.name}`);
+                }
             }
 
-            const data = await response.json();
-            alert("Product added successfully!");
+            // Clear cart and navigate to confirmation
+            setCartItems([]);
+            alert('Checkout successful!');
+            // Navigate to a thank you page or back to collection
             navigate('/collection');
-        } catch (error) {
-            console.error("Error adding product:", error);
-            alert("Failed to add product. Please try again.");
+
+        } catch (err) {
+            console.error('Checkout error:', err);
+            setError(err instanceof Error ? err.message : 'Checkout failed');
         }
     };
+
+    if (loading) {
+        return (
+            <div className="collection-container">
+                <Header />
+                <div style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                    <p>Loading cart...</p>
+                </div>
+                <Footer />
+            </div>
+        );
+    }
 
     return (
-        <div style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
+        <div className="collection-container">
             <Header />
-            <div style={{ flex: 1, padding: "20px", maxWidth: "800px", margin: "0 auto" }}>
-                <h1 style={{ textAlign: "center", marginBottom: "20px" }}>Add New Product</h1>
+            <div style={{ flex: 1, padding: '20px', marginTop: '80px' }}>
+                <h1 style={{ textAlign: 'center', marginBottom: '30px' }}>Your Shopping Cart</h1>
 
-                <div style={{ marginBottom: "15px" }}>
-                    <label style={{ display: "block", marginBottom: "5px", fontWeight: "bold" }}>Product Name:</label>
-                    <input
-                        type="text"
-                        value={productName}
-                        onChange={(e) => setProductName(e.target.value)}
-                        style={{ width: "100%", padding: "8px", borderRadius: "4px", border: "1px solid #ccc" }}
-                    />
-                </div>
-
-                <div style={{ marginBottom: "15px" }}>
-                    <label style={{ display: "block", marginBottom: "5px", fontWeight: "bold" }}>Price:</label>
-                    <input
-                        type="text"
-                        value={productPrice}
-                        onChange={(e) => setProductPrice(e.target.value)}
-                        style={{ width: "100%", padding: "8px", borderRadius: "4px", border: "1px solid #ccc" }}
-                    />
-                </div>
-
-                <div style={{ marginBottom: "15px" }}>
-                    <label style={{ display: "block", marginBottom: "5px", fontWeight: "bold" }}>Stock:</label>
-                    <input
-                        type="number"
-                        value={productStock}
-                        onChange={(e) => setProductStock(e.target.value)}
-                        style={{ width: "100%", padding: "8px", borderRadius: "4px", border: "1px solid #ccc" }}
-                    />
-                </div>
-
-                <div style={{ marginBottom: "15px" }}>
-                    <label style={{ display: "block", marginBottom: "5px", fontWeight: "bold" }}>YouTube ID:</label>
-                    <input
-                        type="text"
-                        value={productYoutubeId}
-                        onChange={(e) => setProductYoutubeId(e.target.value)}
-                        style={{ width: "100%", padding: "8px", borderRadius: "4px", border: "1px solid #ccc" }}
-                    />
-                </div>
-
-                <div style={{ marginBottom: "15px" }}>
-                    <label style={{ display: "block", marginBottom: "5px", fontWeight: "bold" }}>Type:</label>
-                    <select
-                        value={productType}
-                        onChange={(e) => setType(e.target.value)}
-                        style={{ width: "100%", padding: "8px", borderRadius: "4px", border: "1px solid #ccc" }}
-                    >
-                        <option value="">Select Type</option>
-                        <option value="Men">Men</option>
-                        <option value="Women">Women</option>
-                    </select>
-                </div>
-
-                <div style={{ marginBottom: "15px" }}>
-                    <label style={{ display: "block", marginBottom: "5px", fontWeight: "bold" }}>Size:</label>
-                    <select
-                        value={productSize}
-                        onChange={(e) => setSize(e.target.value)}
-                        style={{ width: "100%", padding: "8px", borderRadius: "4px", border: "1px solid #ccc" }}
-                    >
-                        <option value="">Select Size</option>
-                        <option value="S">S</option>
-                        <option value="M">M</option>
-                        <option value="L">L</option>
-                        <option value="XL">XL</option>
-                    </select>
-                </div>
-
-                <div style={{ marginBottom: "15px" }}>
-                    <label style={{ display: "block", marginBottom: "5px", fontWeight: "bold" }}>Image:</label>
-                    <div
-                        onDragOver={handleDragOver}
-                        onDragLeave={handleDragLeave}
-                        onDrop={handleDrop}
-                        onClick={() => fileInputRef.current?.click()}
-                        style={{
-                            border: `2px dashed ${isDragging ? '#007bff' : '#ccc'}`,
-                            borderRadius: "4px",
-                            padding: "40px 20px",
-                            textAlign: "center",
-                            cursor: "pointer",
-                            backgroundColor: isDragging ? 'rgba(0, 123, 255, 0.05)' : 'transparent',
-                            transition: "all 0.3s"
-                        }}
-                    >
-                        {imagePreview ? (
-                            <div>
-                                <img
-                                    src={imagePreview}
-                                    alt="Product preview"
-                                    style={{ maxWidth: "100%", maxHeight: "200px", marginBottom: "10px" }}
-                                />
-                                <p>Click or drag to change image</p>
-                            </div>
-                        ) : (
-                            <p>Drop image here or click to select file</p>
-                        )}
+                {error && (
+                    <div style={{ padding: '10px', background: '#fff3cd', color: '#856404', margin: '10px 0', borderRadius: '4px' }}>
+                        {error}
                     </div>
-                    <input
-                        type="file"
-                        ref={fileInputRef}
-                        style={{ display: "none" }}
-                        accept="image/*"
-                        onChange={(e) => {
-                            if (e.target.files && e.target.files[0]) {
-                                handleImageChange(e.target.files[0]);
-                            }
-                        }}
-                    />
-                </div>
+                )}
 
-                <button
-                    onClick={handleSubmit}
-                    style={{
-                        backgroundColor: "#007bff",
-                        color: "white",
-                        padding: "10px 15px",
-                        border: "none",
-                        borderRadius: "4px",
-                        cursor: "pointer",
-                        fontSize: "16px",
-                        width: "100%"
-                    }}
-                >
-                    Add Product
-                </button>
+                {cartItems.length === 0 ? (
+                    <div style={{ textAlign: 'center', padding: '50px' }}>
+                        <p>Your cart is empty</p>
+                        <button
+                            onClick={() => navigate('/collection')}
+                            style={{
+                                padding: '10px 20px',
+                                backgroundColor: '#444',
+                                color: 'white',
+                                border: 'none',
+                                borderRadius: '4px',
+                                cursor: 'pointer',
+                                marginTop: '20px'
+                            }}
+                        >
+                            Continue Shopping
+                        </button>
+                    </div>
+                ) : (
+                    <div>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                            {cartItems.map(item => (
+                                <div key={item.id} style={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    padding: '15px',
+                                    border: '1px solid #ddd',
+                                    borderRadius: '4px'
+                                }}>
+                                    <div style={{ width: '100px', height: '100px', overflow: 'hidden', marginRight: '20px' }}>
+                                        <img
+                                            src={item.image?.startsWith('http') ? item.image :
+                                                item.image?.startsWith('/') ? `http://localhost:5274${item.image}` :
+                                                    'https://via.placeholder.com/100x100?text=No+Image'}
+                                            alt={item.name}
+                                            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                                        />
+                                    </div>
+
+                                    <div style={{ flex: 1 }}>
+                                        <h3>{item.name}</h3>
+                                        <p>Size: {item.size} | Type: {item.type}</p>
+                                        <p>${item.price.toFixed(2)}</p>
+                                    </div>
+
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                                        <button
+                                            onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                                            disabled={item.quantity <= 1}
+                                            style={{
+                                                width: '30px',
+                                                height: '30px',
+                                                border: 'none',
+                                                background: '#f0f0f0',
+                                                cursor: 'pointer'
+                                            }}
+                                        >-</button>
+                                        <span>{item.quantity}</span>
+                                        <button
+                                            onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                                            disabled={item.quantity >= item.stock}
+                                            style={{
+                                                width: '30px',
+                                                height: '30px',
+                                                border: 'none',
+                                                background: '#f0f0f0',
+                                                cursor: 'pointer'
+                                            }}
+                                        >+</button>
+                                    </div>
+
+                                    <div style={{ width: '120px', textAlign: 'right', marginLeft: '20px' }}>
+                                        <p style={{ fontWeight: 'bold' }}>${(item.price * item.quantity).toFixed(2)}</p>
+                                        <button
+                                            onClick={() => removeItem(item.id)}
+                                            style={{
+                                                padding: '5px 10px',
+                                                backgroundColor: '#dc3545',
+                                                color: 'white',
+                                                border: 'none',
+                                                borderRadius: '4px',
+                                                cursor: 'pointer',
+                                                marginTop: '5px'
+                                            }}
+                                        >Remove</button>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+
+                        <div style={{
+                            marginTop: '30px',
+                            padding: '20px',
+                            border: '1px solid #ddd',
+                            borderRadius: '4px',
+                            backgroundColor: '#f9f9f9'
+                        }}>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #ddd', paddingBottom: '10px' }}>
+                                <h3>Subtotal:</h3>
+                                <h3>${calculateSubtotal().toFixed(2)}</h3>
+                            </div>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '20px' }}>
+                                <button
+                                    onClick={() => navigate('/collection')}
+                                    style={{
+                                        padding: '10px 20px',
+                                        backgroundColor: '#6c757d',
+                                        color: 'white',
+                                        border: 'none',
+                                        borderRadius: '4px',
+                                        cursor: 'pointer'
+                                    }}
+                                >
+                                    Continue Shopping
+                                </button>
+                                <button
+                                    onClick={handleCheckout}
+                                    style={{
+                                        padding: '10px 30px',
+                                        backgroundColor: '#444',
+                                        color: 'white',
+                                        border: 'none',
+                                        borderRadius: '4px',
+                                        cursor: 'pointer',
+                                        fontWeight: 'bold'
+                                    }}
+                                >
+                                    Checkout
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                )}
             </div>
             <Footer />
         </div>
     );
 };
 
-export default AddProduct;
+export default CartPage;

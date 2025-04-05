@@ -22,6 +22,7 @@ public class Startup
             });
 
             services.AddControllers();
+            services.AddScoped<IProductService, ProductService>();
         }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
