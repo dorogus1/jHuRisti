@@ -1,4 +1,4 @@
-import UserLogo from "../Pictures/User.png";
+
 import { useNavigate } from "react-router-dom";
 import React, { useEffect, useState, useRef } from "react";
 import '../CssFiles/Componente.css';

@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import '../CssFiles/Componente.css';
 import LogoLight from "../Pictures/LogoSiteAlb.png";
 import LogoDark from "../Pictures/LogoSiteNegru.png";
+import HoverImage from "../Pictures/LogoDrop.png";
 
 const TextHeader: React.FC = () => {
     const navigate = useNavigate();
@@ -36,7 +37,7 @@ const TextHeader: React.FC = () => {
                 onMouseLeave={() => setIsHovered(false)}
             >
                 <img
-                    src={isDarkMode ? LogoLight : LogoDark}
+                    src={isDarkMode ? (LogoLight && isHovered ? HoverImage : LogoDark) : (LogoDark && isHovered ? HoverImage : LogoDark)}
                     alt="jHuRisti Logo"
                     className="text-header-logo"
                 />
