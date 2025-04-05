@@ -1,4 +1,3 @@
-// frontend/src/Pages/CollectionPage.tsx
 import React, { useState, useRef, useEffect } from 'react';
 import Footer from "../Componente/Footer";
 import Header from "../Componente/Header";
@@ -6,6 +5,7 @@ import '../CssFiles/CollectionPage.css';
 import PlayButton from '../Componente/PlayButton';
 import {CartButtonAdd} from "../Componente/CartButtonAdd";
 
+// Define product interface based on Storage.cs model
 interface Product {
     id: number;
     name: string;
@@ -23,6 +23,7 @@ const CollectionPage: React.FC = () => {
     const [products, setProducts] = useState<Product[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+
     const [filters, setFilters] = useState({
         type: "",
         size: "",
@@ -33,32 +34,28 @@ const CollectionPage: React.FC = () => {
     const [playingId, setPlayingId] = useState<string | null>(null);
     const audioPlayerRef = useRef<HTMLIFrameElement | null>(null);
 
-    const { isMuted } = useSound();
-
+    // Fetch products when component mounts
     useEffect(() => {
-        if (audioPlayerRef.current && audioPlayerRef.current.contentWindow) {
-            const command = isMuted ? 'mute' : 'unMute';
-            audioPlayerRef.current.contentWindow.postMessage(
-                `{"event":"command","func":"${command}","args":""}`,
-                '*'
-            );
-        }
-    }, [isMuted]);
+        const fetchProducts = async () => {
+            try {
+                const response = await fetch('http://localhost:5274/api/product/products');
 
-    const fetchProducts = async () => {
-        try {
-            const response = await fetch('http://localhost:5274/api/product/products');
-            if (!response.ok) {
-                throw new Error(`Error ${response.status}: ${response.statusText}`);
+                if (!response.ok) {
+                    throw new Error(`Error ${response.status}: ${response.statusText}`);
+                }
+
+                const data = await response.json();
+                setProducts(data);
+                setLoading(false);
+            } catch (err) {
+                console.error('Error fetching products:', err);
+                setError(err instanceof Error ? err.message : 'Failed to load products');
+                setLoading(false);
             }
-            const data = await response.json();
-            setProducts(data);
-            setLoading(false);
-        } catch (err) {
-            console.error('Error fetching products:', err);
-            setError('Failed to load products');
-        }
-    };
+        };
+
+        fetchProducts();
+    }, []);
 
     const handlePlay = (youtubeId: string) => {
         if (playingId === youtubeId) {
@@ -117,8 +114,8 @@ const CollectionPage: React.FC = () => {
         const playbutton = e.currentTarget.querySelector('.play-button') as HTMLButtonElement;
         if (playbutton) playbutton.style.transform = "translateY(+20px)";
 
-        const cartbutton = e.currentTarget.querySelector('.cart-button') as HTMLButtonElement;
-        if (cartbutton) cartbutton.style.transform = "translateY(+20px)";
+        const cartButton = e.currentTarget.querySelector('.cart-button') as HTMLButtonElement;
+        if (cartButton) cartButton.style.transform = "translateY(+20px)";
     };
 
     const handleMouseLeave = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -137,8 +134,8 @@ const CollectionPage: React.FC = () => {
         const playbutton = e.currentTarget.querySelector('.play-button') as HTMLButtonElement;
         if (playbutton) playbutton.style.transform = "translateY(+0px)";
 
-        const cartbutton = e.currentTarget.querySelector('.cart-button') as HTMLButtonElement;
-        if (cartbutton) cartbutton.style.transform = "translateY(0px)";
+        const cartButton = e.currentTarget.querySelector('.cart-button') as HTMLButtonElement;
+        if (cartButton) cartButton.style.transform = "translateY(0px)";
     };
 
     const handleFilterChange = (newFilters: typeof filters) => {
@@ -157,15 +154,17 @@ const CollectionPage: React.FC = () => {
         );
     }
 
-    return (
-        <div className="collection-container">
-            <Header showFilterButton={true} onFilterChange={handleFilterChange} />
-            <div style={{ flex: 1 }}>
-                {error && (
-                    <div style={{ padding: '10px', background: '#fff3cd', color: '#856404', margin: '10px 0', borderRadius: '4px' }}>
-                        {error}
-                    </div>
-                )}
+    if (error) {
+        return (
+            <div className="collection-container">
+                <Header showFilterButton={true} onFilterChange={handleFilterChange} />
+                <div style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                    <p>Error: {error}</p>
+                </div>
+                <Footer />
+            </div>
+        );
+    }
 
     return (
         <div className="collection-container">
@@ -189,7 +188,7 @@ const CollectionPage: React.FC = () => {
                                         (e.target as HTMLImageElement).src = 'https://via.placeholder.com/300x400?text=No+Image';
                                     }}
                                 />
-                                < CartButtonAdd />
+                                <CartButtonAdd />
                                 <PlayButton
                                     youtubeId={product.youtubeId}
                                     playingId={playingId}
@@ -205,8 +204,8 @@ const CollectionPage: React.FC = () => {
                         </div>
                     )}
                 </div>
+                <Footer />
             </div>
-            <Footer />
         </div>
     );
 };
