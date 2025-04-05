@@ -1,10 +1,10 @@
-
 import { useNavigate } from "react-router-dom";
 import React, { useEffect, useState, useRef } from "react";
 import '../CssFiles/Componente.css';
 import LightMode from "../Pictures/ShopWhite.png";
 import DarkMode from "../Pictures/ShopBlack.png";
 import hoverSound from "../Sounds/PeELE.mp3";
+import { useSound } from "../Context/SoundContext";
 
 export function CollectionButton() {
     const navigate = useNavigate();
@@ -12,6 +12,7 @@ export function CollectionButton() {
     const [isDarkMode, setIsDarkMode] = useState(false);
     const audioRef = useRef(new Audio(hoverSound));
     const buttonRef = useRef<HTMLDivElement>(null);
+    const { isMuted } = useSound();
 
     audioRef.current.volume = 0.1;
 
@@ -20,16 +21,16 @@ export function CollectionButton() {
     };
 
     const handleMouseEnter = (e: React.MouseEvent<HTMLDivElement>) => {
-        // Only trigger if hovering the actual button
         if (e.target === buttonRef.current || buttonRef.current?.contains(e.target as Node)) {
             setIsHovered(true);
-            audioRef.current.currentTime = 0;
-            audioRef.current.play().catch(error => console.log("Audio playback failed:", error));
+            if (!isMuted) {
+                audioRef.current.currentTime = 0;
+                audioRef.current.play().catch(error => console.log("Audio playback failed:", error));
+            }
         }
     };
 
     const handleMouseLeave = (e: React.MouseEvent<HTMLDivElement>) => {
-        // Only trigger if leaving the actual button
         if (e.target === buttonRef.current || buttonRef.current?.contains(e.target as Node)) {
             setIsHovered(false);
             audioRef.current.pause();
@@ -52,6 +53,11 @@ export function CollectionButton() {
             audioRef.current.currentTime = 0;
         };
     }, []);
+
+    // Update audio mute state when isMuted changes
+    useEffect(() => {
+        audioRef.current.muted = isMuted;
+    }, [isMuted]);
 
     return (
         <div

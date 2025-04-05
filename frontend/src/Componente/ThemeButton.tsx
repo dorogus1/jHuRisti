@@ -3,20 +3,22 @@ import '../CssFiles/Componente.css';
 import DarkMode from "../Pictures/BlackThemeButton.png";
 import LightMode from "../Pictures/WhiteThemeButton.png";
 import hoverSound from "../Sounds/ThemeButton.mp3";
+import { useSound } from "../Context/SoundContext";
 
 export function ThemeButton() {
     const [isHovered, setIsHovered] = useState(false);
     const [isDarkMode, setIsDarkMode] = useState(false);
     const audioRef = useRef(new Audio(hoverSound));
     const buttonRef = useRef<HTMLDivElement>(null);
+    const { isMuted } = useSound();
 
     audioRef.current.volume = 1.0;
 
     const handleClick = () => {
         setIsDarkMode(!isDarkMode);
         document.body.classList.toggle('dark-mode');
-        // Play sound only when switching to dark mode
-        if (!isDarkMode) {
+        // Play sound only when switching to dark mode and not muted
+        if (!isDarkMode && !isMuted) {
             audioRef.current.currentTime = 0;
             audioRef.current.play().catch(error => console.log("Audio playback failed:", error));
         }
@@ -49,6 +51,11 @@ export function ThemeButton() {
             audioRef.current.currentTime = 0;
         };
     }, []);
+
+    // Update audio mute state when isMuted changes
+    useEffect(() => {
+        audioRef.current.muted = isMuted;
+    }, [isMuted]);
 
     return (
         <>

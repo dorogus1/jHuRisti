@@ -3,6 +3,7 @@ import Footer from "../Componente/Footer";
 import Header from "../Componente/Header";
 import '../CssFiles/CollectionPage.css';
 import PlayButton from '../Componente/PlayButton';
+import { useSound } from "../Context/SoundContext";
 
 // Fallback images for testing or when API fails
 import image1 from '../Img/5751a5302061c5b2860c113558fcbc09.jpg';
@@ -72,9 +73,18 @@ const CollectionPage: React.FC = () => {
     const fileInputRef = useRef<HTMLInputElement>(null);
 
     // Fetch products when component mounts
+    // Add this near the other useEffect hooks
+    const { isMuted } = useSound();
+
     useEffect(() => {
-        fetchProducts();
-    }, []);
+        if (audioPlayerRef.current && audioPlayerRef.current.contentWindow) {
+            const command = isMuted ? 'mute' : 'unMute';
+            audioPlayerRef.current.contentWindow.postMessage(
+                `{"event":"command","func":"${command}","args":""}`,
+                '*'
+            );
+        }
+    }, [isMuted]);
 
     const fetchProducts = async () => {
         try {
@@ -120,11 +130,20 @@ const CollectionPage: React.FC = () => {
             iframe.style.top = '-9999px';
             iframe.style.left = '-9999px';
             iframe.allow = 'autoplay';
-            iframe.src = `https://www.youtube.com/embed/${youtubeId}?autoplay=1&controls=0&showinfo=0&autohide=1`;
+
+            // Add enablejsapi=1 to allow JavaScript control
+            iframe.src = `https://www.youtube.com/embed/${youtubeId}?autoplay=1&controls=0&showinfo=0&autohide=1&enablejsapi=1`;
 
             document.body.appendChild(iframe);
             audioPlayerRef.current = iframe;
             setPlayingId(youtubeId);
+
+            // Add event listener for iframe load
+            iframe.onload = () => {
+                if (iframe.contentWindow && isMuted) {
+                    iframe.contentWindow.postMessage('{"event":"command","func":"mute","args":""}', '*');
+                }
+            };
         }
     };
 
