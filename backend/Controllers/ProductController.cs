@@ -36,12 +36,11 @@ public class ProductController : ControllerBase
         var product = new Storage
         {
             Name = model.Name,
-            Description = model.Description,
             Size = model.Size,
             Type = model.Type,
             Stock = int.Parse(model.Stock),
             youtubeId = model.YoutubeId,
-            Price = int.Parse(model.Price),
+            Price = float.Parse(model.Price),
             IsDefault = false
         };
 
@@ -92,7 +91,6 @@ public class ProductController : ControllerBase
 public class ProductViewModel
 {
     public string Name { get; set; } = string.Empty;
-    public string Description { get; set; } = string.Empty;
     public string Size { get; set; } = string.Empty;
     public string Type { get; set; } = string.Empty;
     public string Stock { get; set; } = string.Empty;

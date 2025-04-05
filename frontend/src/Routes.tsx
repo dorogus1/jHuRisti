@@ -4,7 +4,7 @@ import MainPage from "./Pages/MainPage";
 import VerifyEmailPage from "./Pages/VerifyEmailPage";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import React from "react";
-import CollectionPage from "./Pages/CollectionPage";
+import CollectionPage from "./Pages/CollectionPage_Edit";
 import AddProduct from "./Pages/AddProduct";
 
 

@@ -5,7 +5,6 @@ import { useNavigate } from 'react-router-dom';
 
 const AddProduct: React.FC = () => {
     const [productName, setProductName] = useState("");
-    const [productDescription, setProductDescription] = useState("");
     const [productPrice, setProductPrice] = useState("");
     const [productImage, setProductImage] = useState<File | null>(null);
     const [productStock, setProductStock] = useState("");
@@ -51,7 +50,6 @@ const AddProduct: React.FC = () => {
         try {
             const formData = new FormData();
             formData.append("Name", productName);
-            formData.append("Description", productDescription);
             formData.append("Price", productPrice);
             if (productImage) {
                 formData.append("Image", productImage);
@@ -64,7 +62,6 @@ const AddProduct: React.FC = () => {
             // For debugging, log the form data
             console.log("Sending form data:", {
                 name: productName,
-                description: productDescription,
                 price: productPrice,
                 stock: productStock,
                 youtubeId: productYoutubeId,
@@ -110,16 +107,6 @@ const AddProduct: React.FC = () => {
                 </div>
 
                 <div style={{ marginBottom: "15px" }}>
-                    <label style={{ display: "block", marginBottom: "5px", fontWeight: "bold" }}>Description:</label>
-                    <textarea
-                        value={productDescription}
-                        onChange={(e) => setProductDescription(e.target.value)}
-                        rows={4}
-                        style={{ width: "100%", padding: "8px", borderRadius: "4px", border: "1px solid #ccc" }}
-                    />
-                </div>
-
-                <div style={{ marginBottom: "15px" }}>
                     <label style={{ display: "block", marginBottom: "5px", fontWeight: "bold" }}>Price:</label>
                     <input
                         type="text"
@@ -157,9 +144,8 @@ const AddProduct: React.FC = () => {
                         style={{ width: "100%", padding: "8px", borderRadius: "4px", border: "1px solid #ccc" }}
                     >
                         <option value="">Select Type</option>
-                        <option value="Clothing">Clothing</option>
-                        <option value="Accessories">Accessories</option>
-                        <option value="Footwear">Footwear</option>
+                        <option value="Men">Men</option>
+                        <option value="Women">Women</option>
                     </select>
                 </div>
 
@@ -171,9 +157,10 @@ const AddProduct: React.FC = () => {
                         style={{ width: "100%", padding: "8px", borderRadius: "4px", border: "1px solid #ccc" }}
                     >
                         <option value="">Select Size</option>
-                        <option value="Small">Small</option>
-                        <option value="Medium">Medium</option>
-                        <option value="Large">Large</option>
+                        <option value="S">S</option>
+                        <option value="M">M</option>
+                        <option value="L">L</option>
+                        <option value="XL">XL</option>
                     </select>
                 </div>
 
