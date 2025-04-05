@@ -108,7 +108,6 @@ public class AuthController : ControllerBase
 
         return Ok(new { token, message = "2FA code sent to your email" });
     }
-
     private string GenerateJwtToken(User user)
     {
         var tokenHandler = new JwtSecurityTokenHandler();
