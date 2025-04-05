@@ -1,9 +1,25 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import '../CssFiles/Componente.css';
+import LogoLight from "../Pictures/LogoSiteAlb.png";
+import LogoDark from "../Pictures/LogoSiteNegru.png";
 
 const TextHeader: React.FC = () => {
     const navigate = useNavigate();
     const [isHovered, setIsHovered] = useState(false);
+    const [isDarkMode, setIsDarkMode] = useState(false);
+
+    useEffect(() => {
+        const checkDarkMode = () => {
+            setIsDarkMode(document.body.classList.contains('dark-mode'));
+        };
+
+        checkDarkMode();
+        const observer = new MutationObserver(checkDarkMode);
+        observer.observe(document.body, { attributes: true, attributeFilter: ['class'] });
+
+        return () => observer.disconnect();
+    }, []);
 
     const handleClick = () => {
         navigate('/main');
@@ -11,37 +27,19 @@ const TextHeader: React.FC = () => {
 
     return (
         <>
-            {isHovered && (
-                <div
-                    style={{
-                        position: "fixed",
-                        top: "0",
-                        left: "0",
-                        width: "100%",
-                        height: "11%",
-                        backgroundColor: "#CBCBCB",
-                        zIndex: "1",
-                    }}
-                ></div>
-            )}
+            {isHovered && <div className="text-header-hover-overlay" />}
 
             <header
-                style={{
-                    fontSize: "32px",
-                    textAlign: "center",
-                    padding: "5px",
-                    position: "relative",
-                    top: "10px",
-                    zIndex: "10",
-                    cursor: "pointer",
-                    width: "120px",
-                    margin: "0 auto",
-                }}
+                className="text-header-container"
                 onClick={handleClick}
                 onMouseEnter={() => setIsHovered(true)}
                 onMouseLeave={() => setIsHovered(false)}
             >
-                jHuRisti
+                <img
+                    src={isDarkMode ? LogoLight : LogoDark}
+                    alt="jHuRisti Logo"
+                    className="text-header-logo"
+                />
             </header>
         </>
     );

@@ -13,6 +13,7 @@ import image11 from '../Img/img_1.png';
 import image12 from '../Img/img_2.png';
 import Footer from "../Componente/Footer";
 import Header from "../Componente/Header";
+import '../CssFiles/CollectionPage.css';
 
 const products = [
     { id: 1, name: "Sparkly Y2K blue vibes!", image: image1, price: "$59.99", priceValue: 59.99, type: "Women", size: "M", inStock: true, youtubeId: "--AHUQRWoqw" },
@@ -105,82 +106,37 @@ const CollectionPage: React.FC = () => {
     };
 
     return (
-        <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+        <div className="collection-container" >
             <Header showFilterButton={true} onFilterChange={handleFilterChange} />
             <div style={{ flex: 1 }}>
-                <div style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    gap: "20px",
-                    flexWrap: "wrap",
-                    marginTop: "20px",
-                }}>
+                <div className="products-grid">
                     {filteredProducts.map((product) => (
                         <div
                             key={product.id}
-                            style={{
-                                border: "1px solid #ddd",
-                                padding: "10px",
-                                textAlign: "center",
-                                width: "30%",
-                                boxSizing: "border-box",
-                                position: "relative",
-                                overflow: "hidden"
-                            }}
+                            className="product-card"
                             onMouseEnter={handleMouseEnter}
                             onMouseLeave={handleMouseLeave}
                         >
                             <img
                                 src={product.image}
                                 alt={product.name}
-                                style={{
-                                    width: "100%",
-                                    transition: "transform 0.3s ease",
-                                    border: playingId === product.youtubeId ? "3px solid #ff6b6b" : "none"
-                                }}
+                                className={`product-image ${playingId === product.youtubeId ? 'playing' : ''}`}
                             />
                             <button
                                 className="play-btn"
                                 onClick={() => handlePlay(product.youtubeId)}
-                                style={{
-                                    position: "absolute",
-                                    top: 0,
-                                    left: 0,
-                                    width: "100%",
-                                    height: "100%",
-                                    background: "rgba(0, 0, 0, 0.0)",
-                                    color: "white",
-                                    border: "none",
-                                    cursor: "pointer",
-                                    display: "flex",
-                                    alignItems: "center",
-                                    justifyContent: "center",
-                                    opacity: 0,
-                                    transition: "all 0.3s ease",
-                                    fontSize: "48px"
-                                }}
                             >
                                 {playingId === product.youtubeId ? '' : ''}
                             </button>
 
                             {/* Audio indicator */}
                             {playingId === product.youtubeId && (
-                                <div style={{
-                                    position: "absolute",
-                                    bottom: "10px",
-                                    right: "10px",
-                                    background: "#ff6b6b",
-                                    color: "white",
-                                    padding: "5px 10px",
-                                    borderRadius: "20px",
-                                    fontSize: "12px",
-                                    fontWeight: "bold"
-                                }}>
+                                <div className="audio-indicator">
                                     ♪ Playing
                                 </div>
                             )}
-                            <h2 style={{ fontSize: "18px", margin: "10px 0" }}>{product.name}</h2>
-                            <p style={{ fontWeight: "bold" }}>{product.price}</p>
+                            <h2 className="product-title">{product.name}</h2>
+                            <p className="product-price">{product.price}</p>
                         </div>
                     ))}
                 </div>

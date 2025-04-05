@@ -1,13 +1,14 @@
-import UserLogo from "../Pictures/User.png";
-import { useNavigate } from "react-router-dom";
 import React, { useState } from "react";
+import '../CssFiles/Componente.css';
+import DarkMode from "../Pictures/User.png";
 
-export function LoginPageButton() {
-    const navigate = useNavigate();
+export function ThemeButton() {
     const [isHovered, setIsHovered] = useState(false);
+    const [isDarkMode, setIsDarkMode] = useState(false);
 
     const handleClick = () => {
-        navigate('/');
+        setIsDarkMode(!isDarkMode);
+        document.body.classList.toggle('dark-mode');
     };
 
     return (
@@ -15,19 +16,14 @@ export function LoginPageButton() {
             {isHovered && <div className="user-button-hover-overlay" />}
 
             <div
-                style={{
-                    position: "absolute",
-                    top: "25px",
-                    right: "20px",
-                    zIndex: "20", // Increased z-index
-                }}
+                className="user-button-container theme-button"
                 onMouseEnter={() => setIsHovered(true)}
                 onMouseLeave={() => setIsHovered(false)}
                 onClick={handleClick}
             >
                 <img
-                    src={UserLogo}
-                    alt="User Icon"
+                    src={DarkMode}
+                    alt="Theme Toggle"
                     className="user-button-icon"
                 />
             </div>

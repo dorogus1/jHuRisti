@@ -1,6 +1,7 @@
 import UserLogo from "../Pictures/User.png";
 import { useNavigate } from "react-router-dom";
 import React, { useState } from "react";
+import '../CssFiles/Componente.css';
 
 export function CollectionButton() {
     const navigate = useNavigate();
@@ -12,27 +13,10 @@ export function CollectionButton() {
 
     return (
         <>
-            {isHovered && (
-                <div
-                    style={{
-                        position: "fixed",
-                        top: "0",
-                        left: "0",
-                        width: "100%",
-                        height: "11%",
-                        backgroundColor: "#CBCBCB",
-                        zIndex: "1",
-                    }}
-                ></div>
-            )}
+            {isHovered && <div className="user-button-hover-overlay" />}
 
             <div
-                style={{
-                    position: "absolute",
-                    top: "25px",
-                    right: "60px",
-                    zIndex: "20", // Increased z-index
-                }}
+                className="user-button-container collection-button"
                 onMouseEnter={() => setIsHovered(true)}
                 onMouseLeave={() => setIsHovered(false)}
                 onClick={handleClick}
@@ -40,12 +24,7 @@ export function CollectionButton() {
                 <img
                     src={UserLogo}
                     alt="User Icon"
-                    style={{
-                        width: "35px",
-                        height: "35px",
-                        cursor: "pointer",
-                        pointerEvents: "auto",
-                    }}
+                    className="user-button-icon"
                 />
             </div>
         </>

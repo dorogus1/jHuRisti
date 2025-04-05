@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import '../CssFiles/Componente.css';
 
 export interface Filters {
     type: string;
@@ -36,104 +37,37 @@ const FilterButton: React.FC<FilterButtonProps> = ({ onFilterChange }) => {
     };
 
     return (
-        <div style={{ position: "relative" }}>
-            <button onClick={toggleDropdown}
-                    style={{
-                        padding: "10px",
-                        position: "absolute",
-                        top: "-35px",
-                        left: "10px",
-                        borderRadius: "5px",
-                        cursor: "pointer",
-                        zIndex: "20"
-                    }}>
+        <div className="filter-container">
+            <button onClick={toggleDropdown} className="filter-button">
                 Filter
             </button>
             {isDropdownVisible && (
-                <div style={{
-                    position: "absolute",
-                    top: "50px",
-                    left: "10px",
-                    padding: "20px",
-                    border: "1px solid #ddd",
-                    width: "300px",
-                    backgroundColor: "#f9f9f9",
-                    borderRadius: "8px",
-                    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-                    zIndex: "20"
-                }}>
-                    <h3 style={{
-                        textAlign: "center",
-                        marginBottom: "10px",
-                        fontSize: "20px",
-                        marginTop: "0px",
-                        color: "#333"
-                    }}>
-                        Filters
-                    </h3>
+                <div className="filter-dropdown">
+                    <h3 className="filter-title">Filters</h3>
 
-                    {/* Product Type */}
-                    <label style={{
-                        fontSize: "14px",
-                        display: "block",
-                        marginBottom: "5px",
-                        textAlign: "left"
-                    }}>
-                        Product Type
-                    </label>
-                    <select name="type" onChange={handleChange} value={filters.type} style={{ width: "100%", padding: "8px", borderRadius: "5px", border: "1px solid #ccc", marginBottom: "10px" }}>
+                    <label className="filter-label">Product Type</label>
+                    <select name="type" onChange={handleChange} value={filters.type} className="filter-select">
                         <option value="">All</option>
                         <option value="Men">Men</option>
                         <option value="Women">Women</option>
                     </select>
 
-                    {/* Size */}
-                    <label style={{
-                        fontSize: "14px",
-                        display: "block",
-                        marginBottom: "5px",
-                        textAlign: "left"
-                    }}>
-                        Size
-                    </label>
-                    <select name="size" onChange={handleChange} value={filters.size} style={{ width: "100%", padding: "8px", borderRadius: "5px", border: "1px solid #ccc", marginBottom: "10px" }}>
+                    <label className="filter-label">Size</label>
+                    <select name="size" onChange={handleChange} value={filters.size} className="filter-select">
                         <option value="">All</option>
                         <option value="S">S</option>
                         <option value="M">M</option>
                         <option value="L">L</option>
                     </select>
 
-                    {/* Availability */}
-                    <label style={{
-                        fontSize: "14px",
-                        display: "block",
-                        marginBottom: "5px",
-                        textAlign: "left"
-                    }}>
-                        Availability
-                    </label>
-                    <h2 style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "10px",
-                        fontSize: "14px",
-                        marginBottom: "10px"
-
-                    }}>
-                        <input type="checkbox" name="inStock" onChange={handleChange} checked={filters.inStock} style={{ transform: "scale(1.2)" }} />
+                    <label className="filter-label">Availability</label>
+                    <h2 className="filter-checkbox-container">
+                        <input type="checkbox" name="inStock" onChange={handleChange} checked={filters.inStock} className="filter-checkbox" />
                         <span>In Stock</span>
                     </h2>
 
-                    {/* Price */}
-                    <label style={{
-                        fontSize: "14px",
-                        display: "block",
-                        marginBottom: "5px",
-                        textAlign: "left"
-                    }}>
-                        Price
-                    </label>
-                    <select name="priceRange" onChange={handleChange} value={filters.priceRange} style={{ width: "100%", padding: "8px", borderRadius: "5px", border: "1px solid #ccc" }}>
+                    <label className="filter-label">Price</label>
+                    <select name="priceRange" onChange={handleChange} value={filters.priceRange} className="filter-select">
                         <option value="">All</option>
                         <option value="0-50">0 - 50$</option>
                         <option value="50-100">50 - 100$</option>

@@ -2,7 +2,9 @@ import React, { useState, useEffect } from "react";
 import { LoginPageButton } from "./LoginPageButton";
 import FilterButton, { Filters } from "./FilterButton";
 import TextHeader from "./TextHeader";
-import {CollectionButton} from "./CollectionButton";
+import { CollectionButton } from "./CollectionButton";
+import { ThemeButton } from "./ThemeButton";
+import '../CssFiles/Componente.css';
 
 interface HeaderProps {
     showFilterButton?: boolean;
@@ -31,34 +33,11 @@ const Header: React.FC<HeaderProps> = ({ showFilterButton, onFilterChange }) => 
     }, [lastScrollY]);
 
     return (
-        <div style={{
-            position: "fixed",
-            padding: "10px",
-            top: 0,
-            left: 0,
-            width: "100%",
-            height: "10vh",
-            zIndex: 10,
-            backgroundColor: "white",
-            display: isVisible ? "block" : "none"
-        }}>
+        <div className={`header-container ${!isVisible ? 'header-hidden' : ''}`}>
             <LoginPageButton />
             <CollectionButton />
-            {isHovered && (
-                <div
-                    style={{
-                        position: "fixed",
-                        top: "0",
-                        left: "0",
-                        width: "100%",
-                        height: "11%",
-                        backgroundColor: "#CBCBCB",
-                        zIndex: "5",
-                        pointerEvents: "none",
-                    }}
-                ></div>
-            )}
-
+            <ThemeButton />
+            {isHovered && <div className="header-hover-overlay" />}
             <TextHeader />
             {showFilterButton && onFilterChange && (
                 <FilterButton onFilterChange={onFilterChange} />

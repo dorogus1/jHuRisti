@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useLocation, useNavigate } from 'react-router-dom';
-import './LoginPage.css';
+import '../CssFiles/LoginPage.css';
 
 const VerifyLoginPage: React.FC = () => {
     const [verificationCode, setVerificationCode] = useState("");
