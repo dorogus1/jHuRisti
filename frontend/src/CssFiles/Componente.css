@@ -5,7 +5,7 @@
     transform: translateX(-50%);
     top: 15px;
     width: auto;
-    height: auto;
+    height: 60px;
     padding: 0;
     z-index: 20;
 }
@@ -71,15 +71,6 @@
     pointer-events: auto;
 }
 
-.user-button-hover-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 11%;
-    background-color: #CBCBCB;
-    z-index: 1;
-}
 
 /* Filter styles */
 .filter-container {
@@ -146,7 +137,7 @@
 
 /* Footer styles */
 .footer-container {
-    background-color: #CBCBCB;
+    background: linear-gradient(0deg, #CBCBCB 70%, transparent 100%);
     color: white;
     padding: 20px;
     text-align: center;
@@ -156,9 +147,10 @@
     justify-content: space-between;
     align-items: center;
     z-index: 10;
+    min-height: 20vh;
 }
 
-.footer-logo {
+    .footer-logo {
     flex: 1;
 }
 
@@ -222,17 +214,17 @@ body.dark-mode {
 }
 
 .dark-mode .header-container {
-    background: linear-gradient(180deg, #474141 70%, transparent 100%);
+    background: linear-gradient(180deg, #6c6767 60%, transparent 100%);
 }
 
 .dark-mode .text-header-hover-overlay,
 .dark-mode .user-button-hover-overlay,
 .dark-mode .header-hover-overlay {
-    background: linear-gradient(180deg, #404040 70%, transparent 100%);
+    background: linear-gradient(180deg, #878686 70%, transparent 100%);
 }
 
 .dark-mode .footer-container {
-    background-color: #474141;
+    background: linear-gradient(0deg, #6c6767 70%, transparent 100%);
 }
 
 .dark-mode .footer-link {

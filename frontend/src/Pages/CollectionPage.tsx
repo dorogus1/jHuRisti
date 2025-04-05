@@ -14,6 +14,7 @@ import image12 from '../Img/img_2.png';
 import Footer from "../Componente/Footer";
 import Header from "../Componente/Header";
 import '../CssFiles/CollectionPage.css';
+import PlayButton from '../Componente/PlayButton';
 
 const products = [
     { id: 1, name: "Sparkly Y2K blue vibes!", image: image1, price: "$59.99", priceValue: 59.99, type: "Women", size: "M", inStock: true, youtubeId: "--AHUQRWoqw" },
@@ -86,11 +87,18 @@ const CollectionPage: React.FC = () => {
     });
 
     const handleMouseEnter = (e: React.MouseEvent<HTMLDivElement>) => {
-        const playBtn = e.currentTarget.querySelector('.play-btn') as HTMLButtonElement;
-        if (playBtn) playBtn.style.opacity = "1";
 
         const image = e.currentTarget.querySelector('img') as HTMLImageElement;
         if (image) image.style.transform = "scale(1.1)";
+
+        const text = e.currentTarget.querySelector('.product-title') as HTMLHeadingElement;
+        if (text) text.style.transform = "translateY(+20px)";
+
+        const price = e.currentTarget.querySelector('.product-price') as HTMLParagraphElement;
+        if (price) price.style.transform = "translateY(+20px)";
+
+        const playbutton = e.currentTarget.querySelector('.play-button') as HTMLButtonElement;
+        if (playbutton) playbutton.style.transform = "translateY(+20px)";
     };
 
     const handleMouseLeave = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -99,6 +107,15 @@ const CollectionPage: React.FC = () => {
 
         const image = e.currentTarget.querySelector('img') as HTMLImageElement;
         if (image) image.style.transform = "scale(1)";
+
+        const text = e.currentTarget.querySelector('.product-title') as HTMLHeadingElement;
+        if (text) text.style.transform = "translateY(-0px)";
+
+        const price = e.currentTarget.querySelector('.product-price') as HTMLParagraphElement;
+        if (price) price.style.transform = "translateY(-0px)";
+
+        const playbutton = e.currentTarget.querySelector('.play-button') as HTMLButtonElement;
+        if (playbutton) playbutton.style.transform = "translateY(+0px)";
     };
 
     const handleFilterChange = (newFilters: typeof filters) => {
@@ -122,19 +139,11 @@ const CollectionPage: React.FC = () => {
                                 alt={product.name}
                                 className={`product-image ${playingId === product.youtubeId ? 'playing' : ''}`}
                             />
-                            <button
-                                className="play-btn"
-                                onClick={() => handlePlay(product.youtubeId)}
-                            >
-                                {playingId === product.youtubeId ? '' : ''}
-                            </button>
-
-                            {/* Audio indicator */}
-                            {playingId === product.youtubeId && (
-                                <div className="audio-indicator">
-                                    ♪ Playing
-                                </div>
-                            )}
+                            <PlayButton
+                                youtubeId={product.youtubeId}
+                                playingId={playingId}
+                                onPlay={handlePlay}
+                            />
                             <h2 className="product-title">{product.name}</h2>
                             <p className="product-price">{product.price}</p>
                         </div>
