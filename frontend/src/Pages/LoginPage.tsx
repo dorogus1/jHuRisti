@@ -53,7 +53,7 @@ const LoginPage: React.FC = () => {
                     onChange={(e) => setPassword(e.target.value)}
                 />
                 <button className="button" onClick={handleSubmit}>Login</button>
-                <p className="label">Don't have an account? <Link to="/register">Register</Link></p>
+                <p className="label">Don't have an account? <Link to="/register" className="custom-link">Register</Link></p>
                 < Footer />
             </div>
         </div>

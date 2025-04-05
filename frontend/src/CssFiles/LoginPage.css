@@ -1,4 +1,8 @@
 /* frontend/src/Pages/LoginPage.css */
+@import url('https://fonts.cdnfonts.com/css/graffiti-font');
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+@import url('https://fonts.cdnfonts.com/css/sprite-graffiti');
+
 
 .container {
     display: flex;
@@ -9,6 +13,7 @@
     gap: 10px; /* Adds space between elements */
 }
 
+
 .text-box {
     width: 30vw; /* 50% of the viewport width */
     height: 30px; /* 5% of the viewport height */
@@ -16,29 +21,54 @@
     font-size: 16px;
     text-align: center;
     border: 1px solid gray;
-    border-radius: 5px;
+    border-radius: 9999px;
     outline: none;
 }
 
 .title {
-    font-size: 32px;
     text-align: center;
+    font-family: 'Graffiti font', sans-serif;
+    font-size: 30px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    margin: 20px 0 0 0;
+    padding: 0;
 }
 
 .label {
-    font-size: 18px;
+    font-family: 'Bebas Neue', Arial, sans-serif;
+    font-size: 30px;
     margin-bottom: 10px;
     text-align: center;
 }
 
 .button {
+    background-color: #101010;
+    border-radius: 999px;
     display: block;
     margin: 10px auto;
     padding: 10px 20px;
     font-size: 16px;
-    background-color: #007BFF;
-    color: white;
-    border: none;
-    border-radius: 5px;
+    font-family: 'Graffiti font', sans-serif;
+    font-weight: bold;
+    color: #ffffff;
     cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+body.dark-mode .button
+{
+    color: #1a1a1a;
+    background-color: #ffffff;
+}
+
+.custom-link {
+    color: #FF5733; /* Culoarea personalizată a link-ului (aici portocaliu deschis) */
+    text-decoration: none; /* Elimină sublinierea specifică link-urilor */
+    font-weight: bold; /* Opțional: text îngroșat */
+    transition: color 0.2s ease-in-out; /* Tranziție pentru schimbarea culorii */
+}
+
+.custom-link:hover {
+    color: #C70039; /* Culoarea pe hover (roșu mai întunecat) */
+    text-decoration: underline; /* Subliniere pe hover, dacă dorești */
 }

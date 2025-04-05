@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import '../CssFiles/LoginPage.css';
+import Header from "../Componente/Header";
+import Footer from "../Componente/Footer";
 
 const RegisterPage: React.FC = () => {
     const [username, setUsername] = useState("");
@@ -20,7 +22,8 @@ const RegisterPage: React.FC = () => {
     };
 
     return (
-        <div className="container">
+        <div className="container"  style={{ paddingTop: "10vh" }}>
+            < Header />
             <h1 className="title">REGISTER</h1>
             <p className="label">Username</p>
             <input
@@ -50,7 +53,8 @@ const RegisterPage: React.FC = () => {
                 onChange={(e) => setPassword(e.target.value)}
             />
             <button className="button" onClick={handleSubmit}>Register</button>
-            <p className="label">Already have an account? <Link to="/login">Login</Link></p>
+            <p className="label">Already have an account? <Link to="/Login" className="custom-link">Login</Link></p>
+            < Footer />
         </div>
     );
 }
