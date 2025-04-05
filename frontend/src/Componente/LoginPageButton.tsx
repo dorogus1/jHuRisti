@@ -15,12 +15,7 @@ export function LoginPageButton() {
             {isHovered && <div className="user-button-hover-overlay" />}
 
             <div
-                style={{
-                    position: "absolute",
-                    top: "25px",
-                    right: "20px",
-                    zIndex: "20", // Increased z-index
-                }}
+                className="user-button-container login-button"
                 onMouseEnter={() => setIsHovered(true)}
                 onMouseLeave={() => setIsHovered(false)}
                 onClick={handleClick}
