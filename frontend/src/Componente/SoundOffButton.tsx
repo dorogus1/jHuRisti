@@ -1,24 +1,25 @@
 import React, { useEffect, useRef, useState } from "react";
 import '../CssFiles/Componente.css';
-import DarkMode from "../Pictures/BlackThemeButton.png";
-import LightMode from "../Pictures/WhiteThemeButton.png";
-import hoverSound from "../Sounds/ThemeButton.mp3";
+import DarkMode from "../Pictures/Soundoffblack.png";
+import LightMode from "../Pictures/Soundoffwhite.png";
 
-export function ThemeButton() {
+export function SoundOffButton() {
     const [isHovered, setIsHovered] = useState(false);
     const [isDarkMode, setIsDarkMode] = useState(false);
-    const audioRef = useRef(new Audio(hoverSound));
+    const [isMuted, setIsMuted] = useState(false);
     const buttonRef = useRef<HTMLDivElement>(null);
 
-    audioRef.current.volume = 1.0;
-
     const handleClick = () => {
-        setIsDarkMode(!isDarkMode);
-        document.body.classList.toggle('dark-mode');
-        // Play sound only when switching to dark mode
-        if (!isDarkMode) {
-            audioRef.current.currentTime = 0;
-            audioRef.current.play().catch(error => console.log("Audio playback failed:", error));
+        setIsMuted(!isMuted);
+        if (!isMuted) {
+            document.querySelectorAll('audio').forEach((audio: HTMLAudioElement) => {
+                audio.muted = true;
+                audio.pause();
+            });
+        } else {
+            document.querySelectorAll('audio').forEach((audio: HTMLAudioElement) => {
+                audio.muted = false;
+            });
         }
     };
 
@@ -43,11 +44,7 @@ export function ThemeButton() {
         const observer = new MutationObserver(checkDarkMode);
         observer.observe(document.body, { attributes: true, attributeFilter: ['class'] });
 
-        return () => {
-            observer.disconnect();
-            audioRef.current.pause();
-            audioRef.current.currentTime = 0;
-        };
+        return () => observer.disconnect();
     }, []);
 
     return (
@@ -55,14 +52,14 @@ export function ThemeButton() {
             {isHovered && <div className="user-button-hover-overlay" />}
             <div
                 ref={buttonRef}
-                className="user-button-container theme-button"
+                className={`user-button-container sound-button ${isMuted ? 'muted' : ''}`}
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
                 onClick={handleClick}
             >
                 <img
                     src={isDarkMode ? LightMode : DarkMode}
-                    alt="Theme Toggle"
+                    alt="Sound Toggle"
                     className="user-button-icon"
                 />
             </div>

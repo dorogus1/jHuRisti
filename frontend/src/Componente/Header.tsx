@@ -5,6 +5,7 @@ import TextHeader from "./TextHeader";
 import { CollectionButton } from "./CollectionButton";
 import { ThemeButton } from "./ThemeButton";
 import '../CssFiles/Componente.css';
+import {SoundOffButton} from "./SoundOffButton";
 
 interface HeaderProps {
     showFilterButton?: boolean;
@@ -37,6 +38,7 @@ const Header: React.FC<HeaderProps> = ({ showFilterButton, onFilterChange }) => 
             <LoginPageButton />
             <CollectionButton />
             <ThemeButton />
+            <SoundOffButton />
             {isHovered && <div className="header-hover-overlay" />}
             <TextHeader />
             {showFilterButton && onFilterChange && (

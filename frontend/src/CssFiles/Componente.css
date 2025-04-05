@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+
 /* TextHeader styles */
 .text-header-container {
     position: absolute;
@@ -35,15 +36,15 @@
 
 /* Common header styles */
 .header-container {
-        position: fixed;
-        padding: 10px;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 10vh;
-        z-index: 10;
-        background: linear-gradient(180deg, #CBCBCB 50%, transparent 100%);
-        transition: background 0.3s ease;
+    position: fixed;
+    padding: 10px;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 10vh;
+    z-index: 10;
+    background: linear-gradient(180deg, #CBCBCB 50%, transparent 100%);
+    transition: background 0.3s ease;
 }
 
 .header-hidden {
@@ -61,9 +62,8 @@
     width: 55px;
     height: 55px;
     z-index: 20;
-    overflow: hidden; /* Contain overlays */
+    overflow: hidden;
 }
-
 
 /* Login button specific styles */
 .user-button-container.login-button {
@@ -73,20 +73,32 @@
     width: 35px;
     height: 35px;
     z-index: 25;
-    overflow: visible; /* Allow icon to be visible */
+    overflow: visible;
 }
 
 .login-button .user-button-icon {
     width: 35px;
     height: 35px;
-    z-index: 26; /* Keep icon above overlays */
+    z-index: 26;
 }
 
+/* Sound button specific styles */
+.sound-button {
+    left: 85px !important;
+    top: 5px !important;
+    width: 55px;
+    height: 55px;
+    z-index: 20;
+}
+
+.sound-button.muted {
+    opacity: 0.6;
+}
 
 /* Collection button specific */
 .collection-button .user-button-icon {
-    width: 75px;  /* Increased from 55px */
-    height: 75px; /* Increased from 55px */
+    width: 75px;
+    height: 75px;
     cursor: pointer;
     pointer-events: auto;
 }
@@ -94,17 +106,15 @@
 .collection-button {
     right: 75px;
     z-index: 26;
-    width: 55px;  /* Increased from 55px */
-    height: 60px; /* Increased from 55px */
+    width: 55px;
+    height: 60px;
 }
-
 
 .theme-button {
     left: 15px;
     top: 5px;
     transition: transform 0.3s ease;
 }
-
 
 /* Regular icon styles */
 .user-button-icon {
@@ -127,7 +137,7 @@
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    z-index: 30; /* Increased from 25 to 30 */
+    z-index: 30;
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
@@ -146,7 +156,7 @@
     background-color: #f9f9f9;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    z-index: 30; /* Increased from 20 to 30 */
+    z-index: 30;
 }
 
 .filter-title {
@@ -158,22 +168,13 @@
     color: #333;
 }
 
-body.dark-mode .filter-title {
-    color: #fff; /* Text alb pentru dark mode */
-}
-
-
 .filter-label {
-    font-family: 'Bebas Neue', Arial, sans-serif; /* Font urban/street */
+    font-family: 'Bebas Neue', Arial, sans-serif;
     font-weight: bold;
     text-transform: uppercase;
     font-size: 16px;
     color: #000;
     letter-spacing: 1px;
-}
-
-body.dark-mode .filter-label {
-    color: #fff; /* Text alb pentru dark mode */
 }
 
 .filter-select {
@@ -238,7 +239,6 @@ body.dark-mode .filter-label {
     background-position: center;
 }
 
-
 /* Dark mode styles */
 body.dark-mode {
     background-color: #1a1a1a;
@@ -272,4 +272,9 @@ body.dark-mode {
     background-color: #1a1a1a;
     color: #ffffff;
     border-color: #404040;
+}
+
+body.dark-mode .filter-title,
+body.dark-mode .filter-label {
+    color: #fff;
 }

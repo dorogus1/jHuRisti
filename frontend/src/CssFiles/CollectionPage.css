@@ -74,8 +74,8 @@
 
 .audio-indicator {
     position: absolute;
-    bottom: 50px;   /* Align with play button */
-    right: 55px;    /* Position next to play button */
+    bottom: 50px;
+    right: 55px;
     background: #ff6b6b;
     color: white;
     padding: 5px 10px;
@@ -94,6 +94,7 @@
     opacity: 1;
 }
 
+/* Dark mode styles */
 .dark-mode .product-card::before {
     background: radial-gradient(circle at center, transparent 30%, #6c6767 100%);
 }
