@@ -1,95 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
 
-/* TextHeader styles */
-.text-header-container {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    top: 15px;
-    height: 60px;
-    z-index: 20;
-}
 
-.text-header-logo {
-    width: 120px;
-    cursor: pointer;
-}
-
-/* Button hover effects */
-.user-button-container:hover,
-.collection-button:hover,
-.filter-button:hover,
-.theme-button:hover {
-    transform: scale(1.55);
-    transition: transform 0.3s ease;
-}
-
-/* Common header styles */
-.header-container {
-    position: fixed;
-    padding: 10px;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 10vh;
-    z-index: 10;
-    background: linear-gradient(180deg, #CBCBCB 50%, transparent 100%);
-    transition: background 0.3s ease;
-}
-
-.header-hidden {
-    display: none;
-}
-
-/* Regular button styles */
-.user-button-container,
-.theme-button {
-    position: absolute;
-    top: 15px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 55px;
-    height: 55px;
-    z-index: 20;
-}
-
-/* Login button specific styles */
-.user-button-container.login-button {
-    top: 25px;
-    right: 35px;
-    width: 35px;
-    height: 35px;
-    z-index: 25;
-}
-
-.login-button .user-button-icon {
-    width: 35px;
-    height: 35px;
-    z-index: 26;
-}
-
-
-
-/* Collection button specific */
-.collection-button .user-button-icon {
-    width: 75px;
-    height: 75px;
-    cursor: pointer;
-}
-
-.collection-button {
-    right: 75px;
-    z-index: 26;
-    width: 55px;
-    height: 60px;
-}
-
-.theme-button {
-    left: 15px;
-    top: 5px;
-    transition: transform 0.3s ease;
-}
 
 /* Regular icon styles */
 .user-button-icon {
@@ -199,19 +110,7 @@
 }
 
 
-.footer-logo-image {
-    width: 150px;
-}
 
-.footer-links {
-    flex: 1;
-    text-align: center;
-}
-
-.footer-link {
-    cursor: pointer;
-    color: #414141;
-}
 
 /* Main page styles */
 .main-image-container {

@@ -1,9 +1,13 @@
 import { useNavigate } from "react-router-dom";
 import Logo from "../Pictures/LogoEchipa@2x.png";
 import '../CssFiles/Componente.css';
+import React, { useEffect, useState, useRef } from "react";
 
 const Footer: React.FC = () => {
     const navigate = useNavigate();
+    const [isHovered, setIsHovered] = useState(false);
+
+
 
     return (
         <footer className="footer-container">
