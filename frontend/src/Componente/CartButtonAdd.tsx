@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import DarkMode from "../Pictures/WhiteShopCart.png";
-import '../CssFiles/PopCart.css'; // Import the CSS file for popup styling
+import '../CssFiles/PopCart.css';
+import popUpSound from "../Sounds/NuMaiPune.mp3";
 
 interface CartButtonAddProps {
     productId: number;
@@ -20,10 +21,16 @@ export function CartButtonAdd({ productId, quantity, productDetails }: CartButto
     const [isHovered, setIsHovered] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [showPopup, setShowPopup] = useState(false);
+    const popupCountRef = useRef(0);
+    const audioRef = useRef(new Audio(popUpSound));
     const navigate = useNavigate();
+
+    audioRef.current.volume = 1;
+
 
     const handleClick = async () => {
         try {
+
             const response = await fetch('http://localhost:5274/api/cart/add', {
                 method: 'POST',
                 headers: {
@@ -37,10 +44,17 @@ export function CartButtonAdd({ productId, quantity, productDetails }: CartButto
                 throw new Error(errorData.message || 'Failed to add product to cart');
             }
 
-            // Update localStorage cart data
             updateLocalCart();
             setShowPopup(true);
-        } catch (err) {
+            popupCountRef.current++;
+            if(popupCountRef.current >= 3)
+            {
+                if (audioRef.current) {
+                    audioRef.current.play();
+                }
+            }
+
+            } catch (err) {
             console.error('Error adding product to cart:', err);
             setError(err instanceof Error ? err.message : 'Failed to add product to cart');
         }
