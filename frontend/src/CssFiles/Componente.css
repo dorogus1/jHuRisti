@@ -1,6 +1,10 @@
 /* frontend/src/CssFiles/Componente.css */
 
 .collection-container {
+    overflow-x: hidden;
+    overflow-y: hidden;
+    width:100%;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
     gap: 20px;

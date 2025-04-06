@@ -226,13 +226,17 @@ const CartPage: React.FC = () => {
                                             onClick={() => updateQuantity(item.id, item.quantity - 1)}
                                             disabled={item.quantity <= 1}
                                             className="quantity-button"
-                                        >-</button>
+                                        >
+                                            <p className="text_button">- </p>
+                                        </button>
                                         <span>{item.quantity}</span>
                                         <button
                                             onClick={() => updateQuantity(item.id, item.quantity + 1)}
                                             disabled={item.quantity >= item.stock}
                                             className="quantity-button"
-                                        >+</button>
+                                        >
+                                           <p className="text_button">+ </p>
+                                        </button>
                                     </div>
 
                                     <div className="item-price-actions">

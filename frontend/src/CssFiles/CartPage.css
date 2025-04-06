@@ -1,8 +1,10 @@
 /* CartPage.css */
+
 .cart-container {
     flex: 1;
     padding: 20px;
-    margin-top: 80px;
+    margin: 80px auto 0;
+    width: 50%;
 }
 
 .cart-header {
@@ -74,8 +76,8 @@
 .quantity-button {
     width: 30px;
     height: 30px;
-    border: none;
-    background: #f0f0f0;
+    border: black solid 1px;
+    background: #b8b8b8;
     cursor: pointer;
 }
 
@@ -101,17 +103,27 @@
 
 .cart-summary {
     margin-top: 30px;
-    padding: 20px;
-    border: 1px solid #ddd;
+    padding: 15px;
+    border: 3px solid transparent;
     border-radius: 4px;
-    background-color: #f9f9f9;
+    border-image: linear-gradient(45deg, #5a5656, #6c6767) 1;
 }
+
 
 .subtotal-row {
     display: flex;
     justify-content: space-between;
     border-bottom: 1px solid #ddd;
     padding-bottom: 10px;
+}
+
+/* Adjust the plus sign position in cart page */
+.text_button {
+    font-size: 15px;
+    font-weight: bold;
+    color: #000000;
+    position: relative;
+    top: -10px;  /* shifts the + sign upward; adjust value as needed */
 }
 
 .action-buttons {
