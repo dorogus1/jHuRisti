@@ -4,7 +4,7 @@ import Footer from "../Componente/Footer";
 
 const PrivacyAndCookiePolicyPage: React.FC = () => {
     return (
-        <>
+        <div className="main-container">
             <Header />
             <div className="container" style={{ paddingTop: "10vh" }}>
                 <h1 className="title">Privacy & cookie policy</h1>
@@ -156,7 +156,7 @@ const PrivacyAndCookiePolicyPage: React.FC = () => {
                 </div>
             </div>
             <Footer />
-        </>
+        </div>
     );
 }
 

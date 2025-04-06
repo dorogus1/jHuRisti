@@ -5,7 +5,7 @@ import Header from "../Componente/Header";
 
 const TermsAndConditionsPage: React.FC = () => {
     return (
-        <>
+        <div className="main-container">
             <Header />
             <div className="container" style={{ paddingTop: "10vh" }}>
                 <h1 className="title">Terms and Conditions</h1>
@@ -81,7 +81,7 @@ const TermsAndConditionsPage: React.FC = () => {
                 </div>
             </div>
             <Footer />
-        </>
+        </div>
     );
 };
 

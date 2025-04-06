@@ -82,25 +82,70 @@ const CollectionPage: React.FC = () => {
     const { setResetPlayStateCallback } = useSound();
     // State for selected product popup
     const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+    const [lastRefreshTime, setLastRefreshTime] = useState(Date.now());
+    const previousProductsRef = useRef<Product[]>([]);
+
+    const fetchProducts = async () => {
+        try {
+            setLoading(true);
+            const response = await fetch('http://localhost:5274/api/product/products');
+            if (!response.ok) {
+                throw new Error(`Error ${response.status}: ${response.statusText}`);
+            }
+            const data = await response.json();
+            setProducts(data);
+            setLastRefreshTime(Date.now());
+            setLoading(false);
+        } catch (err) {
+            console.error('Error fetching products:', err);
+            setError(err instanceof Error ? err.message : 'Failed to load products');
+            setLoading(false);
+        }
+    };
 
     useEffect(() => {
-        const fetchProducts = async () => {
+        fetchProducts();
+    }, []);
+
+    // Set up periodic check for stock changes
+    useEffect(() => {
+        const checkForStockChanges = async () => {
             try {
                 const response = await fetch('http://localhost:5274/api/product/products');
                 if (!response.ok) {
                     throw new Error(`Error ${response.status}: ${response.statusText}`);
                 }
-                const data = await response.json();
-                setProducts(data);
-                setLoading(false);
-            } catch (err) {
-                console.error('Error fetching products:', err);
-                setError(err instanceof Error ? err.message : 'Failed to load products');
-                setLoading(false);
+                const newProducts = await response.json();
+
+                // Check if any product has just gone out of stock
+                const stockChangeToZero = newProducts.some((newProduct: Product) => {
+                    const oldProduct = previousProductsRef.current.find(p => p.id === newProduct.id);
+                    return oldProduct && oldProduct.stock > 0 && newProduct.stock === 0;
+                });
+
+                if (stockChangeToZero) {
+                    // Refresh data if a product just went out of stock
+                    setProducts(newProducts);
+                    setLastRefreshTime(Date.now());
+                }
+
+                // Update the reference to compare in next check
+                previousProductsRef.current = newProducts;
+            } catch (error) {
+                console.error("Error checking product stock:", error);
             }
         };
-        fetchProducts();
-    }, []);
+
+        // Update reference after initial load
+        if (products.length > 0 && previousProductsRef.current.length === 0) {
+            previousProductsRef.current = [...products];
+        }
+
+        // Set up periodic check every 30 seconds
+        const intervalId = setInterval(checkForStockChanges, 30000);
+
+        return () => clearInterval(intervalId);
+    }, [products]);
 
     useEffect(() => {
         const resetPlayback = () => {
@@ -193,6 +238,12 @@ const CollectionPage: React.FC = () => {
     // Handle closing the popup
     const handleClosePopup = () => {
         setSelectedProduct(null);
+    };
+
+    // Format the refresh time for display
+    const formatRefreshTime = () => {
+        const date = new Date(lastRefreshTime);
+        return `${date.getHours()}:${date.getMinutes().toString().padStart(2, '0')}:${date.getSeconds().toString().padStart(2, '0')}`;
     };
 
     // Handle keyboard events for accessibility (close popup with Escape key)
@@ -297,6 +348,13 @@ const CollectionPage: React.FC = () => {
                         </div>
                     )}
                 </div>
+
+                {products.some(product => product.stock === 0) && (
+                    <div className="refresh-indicator">
+                        <small>Monitoring stock status. Last updated: {formatRefreshTime()}</small>
+                    </div>
+                )}
+
                 <Footer />
             </div>
 
