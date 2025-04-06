@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import DarkMode from "../Pictures/WhiteShopCart.png";
 import '../CssFiles/PopCart.css';
-import popUpSound from "../Sounds/CartBuffer.mp3";
+import popUpSound from "../Sounds/SoundCartPage.mp3";
 
 interface CartButtonAddProps {
     productId: number;

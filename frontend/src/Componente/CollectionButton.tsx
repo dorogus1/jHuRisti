@@ -3,7 +3,7 @@ import React, { useEffect, useState, useRef } from "react";
 import '../CssFiles/Componente.css';
 import LightMode from "../Pictures/ShopWhite.png";
 import DarkMode from "../Pictures/ShopBlack.png";
-import hoverSound from "../Sounds/SoundCartPage.mp3";
+import hoverSound from "../Sounds/Rich Girl.mp3";
 import { useSound } from "../Context/SoundContext";
 
 export function CollectionButton() {
