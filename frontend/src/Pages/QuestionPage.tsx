@@ -63,7 +63,7 @@ const QuestionPage: React.FC = () => {
     return (
         <>
             <Header />
-            <div className="container" style={{ paddingTop: "10vh", paddingBottom: "5vh" }}>
+            <div className="container" style={{ paddingTop: "10vh", paddingBottom: "5vh"}}>
                 <h1 className="title" style={{ paddingBottom: "5vh" }}>Frequently Asked Questions</h1>
                 <div className="accordion">
                     {faqs.map((faq, index) => (
