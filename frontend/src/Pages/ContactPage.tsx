@@ -10,7 +10,7 @@ const ContactPage: React.FC = () => {
     const [Mesaj, setMesaj] = useState<string>('');
 
     return (
-        <>
+        <div className="main-container">
             <Header />
             <div className="container" style={{ paddingTop: "25vh" }}>
                 <h1 className="title">Contact</h1>
@@ -23,7 +23,7 @@ const ContactPage: React.FC = () => {
             </div>
             <div style={{ height: '110px', background: 'transparent' }}></div>
             <Footer />
-        </>
+        </div>
     );
 }
 

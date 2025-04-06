@@ -2,13 +2,12 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import Footer from "../Componente/Footer";
 import Header from "../Componente/Header";
-
 const AboutUs: React.FC = () => {
     return (
-        <div className="page-wrapper">
+        <div className="main-container">
             <Header />
             <main className="page-content">
-                <div className="container" style={{ paddingTop: "10vh" }}>
+                <div className="container" style={{ paddingTop: "14vh" }}>
                     <h1 className="title">About Us</h1>
 
                     <p className="label">
