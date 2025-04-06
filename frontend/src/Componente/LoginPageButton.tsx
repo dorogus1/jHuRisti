@@ -22,7 +22,7 @@ export function LoginPageButton() {
     }, []);
 
     const handleClick = () => {
-        navigate('/');
+        navigate('/login');
     };
 
     return (
