@@ -118,6 +118,7 @@ export function CartButtonAdd({ productId, quantity, productDetails }: CartButto
             {showPopup && (
                 <div className="popup">
                     <div className="popup-content">
+                        <h2>Choose your weapon</h2>
                         <button onClick={handleGoToCart}>Go to Your Cart</button>
                         <button onClick={handleClosePopup}>Continue Shopping</button>
                     </div>

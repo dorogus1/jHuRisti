@@ -16,7 +16,7 @@ const AboutUs: React.FC = () => {
 
                     <div>
                         <h2 className="label">Our Mission</h2>
-                        <p style={{ textAlign: 'center', maxWidth: '600px', margin: '0 auto' }}>
+                        <p style={{ textAlign: 'center', maxWidth: '700px', margin: '0 auto' }}>
                             To prove that this time, HR is actually going to build the website—not just talk about it.
                         </p>
                     </div>

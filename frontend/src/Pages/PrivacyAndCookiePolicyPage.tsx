@@ -134,9 +134,9 @@ const PrivacyAndCookiePolicyPage: React.FC = () => {
                         <br/>
                         For instructions on how to manage cookies in various browsers, please visit the following links:
                         <ul>
-                            <li><a href="https://support.google.com/chrome/answer/95647?hl=en">Google Chrome</a></li>
-                            <li><a href="https://support.mozilla.org/en-US/kb/enable-and-disable-cookies-website-preferences">Mozilla Firefox</a></li>
-                            <li><a href="https://support.apple.com/guide/safari/manage-cookies-and-website-data-sfri11471/mac">Safari</a></li>
+                            <li><a href="https://support.google.com/chrome/answer/95647?hl=en" style={{color:"#c80101",fontWeight:"bold"}}>Google Chrome</a></li>
+                            <li><a href="https://support.mozilla.org/en-US/kb/enable-and-disable-cookies-website-preferences" style={{color:"#c80101",fontWeight:"bold"}}>Mozilla Firefox</a></li>
+                            <li><a href="https://support.apple.com/guide/safari/manage-cookies-and-website-data-sfri11471/mac" style={{color:"#c80101",fontWeight:"bold"}}>Safari</a></li>
                         </ul>
                     </p>
                 </div>
