@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from "react";
 import '../CssFiles/Componente.css';
-import DarkMode from "../Pictures/Soundoffblack.png";
-import LightMode from "../Pictures/Soundoffwhite.png";
+import DarkModeOff from "../Pictures/Soundoffblack.png";
+import LightModeOff from "../Pictures/Soundoffwhite.png";
+import LightModeOn from "../Pictures/whiteON.png";
+import DarkModeOn from "../Pictures/darkON.png";
 import { useSound } from "../Context/SoundContext";
+
 
 export function SoundOffButton() {
     const [isHovered, setIsHovered] = useState(false);
@@ -16,12 +19,15 @@ export function SoundOffButton() {
     // Check for dark mode
     useEffect(() => {
         const checkDarkMode = () => {
-            setIsDarkMode(document.body.classList.contains('dark-mode'));
+            setIsDarkMode(document.body.classList.contains("dark-mode"));
         };
 
         checkDarkMode();
         const observer = new MutationObserver(checkDarkMode);
-        observer.observe(document.body, { attributes: true, attributeFilter: ['class'] });
+        observer.observe(document.body, {
+            attributes: true,
+            attributeFilter: ["class"]
+        });
 
         return () => observer.disconnect();
     }, []);
@@ -30,17 +36,20 @@ export function SoundOffButton() {
         <div className="sound-button-wrapper">
             {isHovered && <div className="user-button-hover-overlay" />}
             <div
-                className={`user-button-container sound-button ${isMuted ? 'muted' : ''}`}
+                className={`user-button-container sound-button ${isMuted ? "muted" : ""}`}
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
-                onClick={toggleMute}
+                onClick={() => { toggleMute()}}
             >
                 <img
-                    src={isDarkMode ? LightMode : DarkMode}
+                    src={
+                        isDarkMode
+                            ? (LightModeOn && isMuted ? LightModeOff : LightModeOn)
+                            : (DarkModeOn && isMuted ? DarkModeOff : DarkModeOn)
+                    }
                     alt="Sound Toggle"
                     className="user-button-icon"
                 />
-                {isMuted && <div className="muted-indicator" />}
             </div>
         </div>
     );
