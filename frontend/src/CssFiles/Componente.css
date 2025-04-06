@@ -261,7 +261,41 @@ body.dark-mode {
     background-color: #1a1a1a;
     color: #ffffff;
 }
+body,
+.header-container,
+.footer-container,
+.product-card,
+.product-image-container,
+.play-button,
+.cart-button,
+.user-button-container,
+.filter-dropdown,
+.filter-select,
+.product-title,
+.product-price,
+.footer-link,
+.text-header-container {
+    transition:
+            background 3s ease,
+            background-color 3s ease,
+            color 3s ease,
+            border-color 3s ease,
+            box-shadow 3s ease,
+            filter 3s ease;
+}
 
+.header-container,
+.footer-container {
+    transition: background 3s ease, background-color 3s ease;
+}
+
+/* Update transition for images to handle filter changes in dark mode */
+img.theme-sensitive,
+.user-button-icon,
+.play-button img,
+.cart-button img {
+    transition: filter 3s ease;
+}
 .dark-mode .header-container {
     background: linear-gradient(180deg, #6c6767 20%, transparent 100%);
 }

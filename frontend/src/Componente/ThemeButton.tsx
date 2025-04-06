@@ -15,8 +15,10 @@ export function ThemeButton() {
     audioRef.current.volume = 1.0;
 
     const handleClick = () => {
+        // Simply toggle the dark mode class without temporary transition class
         setIsDarkMode(!isDarkMode);
         document.body.classList.toggle('dark-mode');
+
         // Play sound only when switching to dark mode and not muted
         // if (!isDarkMode && !isMuted) {
         //     audioRef.current.currentTime = 0;
@@ -27,6 +29,8 @@ export function ThemeButton() {
             audioRef.current.play().catch(error => console.log("Audio playback failed:", error));
         }
     };
+
+    // Rest of the component remains the same
 
     const handleMouseEnter = (e: React.MouseEvent<HTMLDivElement>) => {
         if (e.target === buttonRef.current || buttonRef.current?.contains(e.target as Node)) {
