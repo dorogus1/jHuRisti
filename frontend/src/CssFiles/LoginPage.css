@@ -3,6 +3,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
 @import url('https://fonts.cdnfonts.com/css/sprite-graffiti');
 
+.checkout-container {
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    max-width: 1200px;
+    margin: 20px auto;
+    transition: background-color 3s ease, color 3s ease;
+}
 
 .container {
     overflow-x: hidden;

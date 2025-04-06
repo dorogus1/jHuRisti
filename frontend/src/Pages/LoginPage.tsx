@@ -16,7 +16,6 @@ const LoginPage: React.FC = () => {
                 usernameOrEmail,
                 password
             });
-
             alert("Login successful! Redirecting to the main page.");
             navigate('/main');
         } catch (error: any) { // Type assertion to 'any'

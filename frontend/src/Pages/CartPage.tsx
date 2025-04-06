@@ -158,9 +158,7 @@ const CartPage: React.FC = () => {
             );
 
             // Clear cart and navigate to confirmation
-            setCartItems([]);
-            alert('Checkout successful! Thank you for your purchase.');
-            navigate('/collection');
+            navigate('/checkout');
 
         } catch (err) {
             console.error('Checkout error:', err);

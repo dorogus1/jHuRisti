@@ -16,7 +16,7 @@ DotEnv.Load(options: new DotEnvOptions(envFilePaths: new[] { "Services/.env" }))
 // In Program.cs - add this with your other DbContext configuration
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlite("Data Source=app.db"));
-
+builder.Services.AddScoped<EmailService>();
 builder.Services.AddDbContext<StorageDbContext>(options =>
     options.UseSqlite("Data Source=storage.db"));
 builder.Services.AddCors(options =>

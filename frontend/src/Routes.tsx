@@ -12,6 +12,9 @@ import ContactPage from "./Pages/ContactPage";
 import QuestionPage from "./Pages/QuestionPage";
 import TermsAndConditionsPage from "./Pages/TermsAndConditionsPage";
 import PrivacyAndCookiePolicyPage from "./Pages/PrivacyAndCookiePolicyPage";
+import CheckoutPage from "./Pages/CheckoutPage";
+import OrderConfirmationPage from "./Pages/OrderConfirmationPage";
+
 
 
 const AppRoutes =() =>{
@@ -31,6 +34,8 @@ const AppRoutes =() =>{
                 <Route path="/questions" element={<QuestionPage />} />
                 <Route path="/termsofuse" element={<TermsAndConditionsPage />} />
                 <Route path="/privacy" element={<PrivacyAndCookiePolicyPage />} />
+                <Route path="/checkout" element={<CheckoutPage />} />
+                <Route path="/order-confirmation" element={<OrderConfirmationPage />} />
             </Routes>
         </Router>
     );
