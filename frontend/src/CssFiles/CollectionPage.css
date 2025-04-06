@@ -12,7 +12,52 @@
 .filter-container {
     position: relative;
 }
+/*Make a red cross over out of stock products*/
+.product-image-container {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+}
 
+.out-of-stock-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 2;
+}
+
+.out-of-stock-overlay:before, .out-of-stock-overlay:after {
+    content: '';
+    position: absolute;
+    background-color: red;
+    width: 100%;
+    height: 5px;
+    transform: rotate(45deg);
+}
+
+.out-of-stock-overlay:after {
+    transform: rotate(-45deg);
+}
+
+.out-of-stock-text {
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
+    z-index: 3;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+}
+
+.cart-button.disabled {
+    background-color: #cccccc;
+    color: #666666;
+    cursor: not-allowed;
+}
 .filter-button {
     padding: 0;
     position: absolute;

@@ -172,26 +172,39 @@ const CollectionPage: React.FC = () => {
                                 onMouseEnter={handleMouseEnter}
                                 onMouseLeave={handleMouseLeave}
                             >
-                                <img
-                                    src={`http://localhost:5274${product.image}`}
-                                    alt={product.name}
-                                    className={`product-image ${playingId === product.youtubeId ? 'playing' : ''}`}
-                                    onError={(e) => {
-                                        (e.target as HTMLImageElement).src = 'https://via.placeholder.com/300x400?text=No+Image';
-                                    }}
-                                />
-                                <CartButtonAdd
-                                    productId={product.id}
-                                    quantity={1}
-                                    productDetails={{
-                                        name: product.name,
-                                        price: product.price,
-                                        image: product.image,
-                                        stock: product.stock,
-                                        size: product.size,
-                                        type: product.type
-                                    }}
-                                />
+                                <div className="product-image-container">
+                                    <img
+                                        src={`http://localhost:5274${product.image}`}
+                                        alt={product.name}
+                                        className={`product-image ${playingId === product.youtubeId ? 'playing' : ''}`}
+                                        onError={(e) => {
+                                            (e.target as HTMLImageElement).src = 'https://via.placeholder.com/300x400?text=No+Image';
+                                        }}
+                                    />
+                                    {product.stock === 0 && (
+                                        <div className="out-of-stock-overlay">
+                                            <span className="out-of-stock-text">OUT OF STOCK</span>
+                                        </div>
+                                    )}
+                                </div>
+                                {product.stock > 0 ? (
+                                    <CartButtonAdd
+                                        productId={product.id}
+                                        quantity={1}
+                                        productDetails={{
+                                            name: product.name,
+                                            price: product.price,
+                                            image: product.image,
+                                            stock: product.stock,
+                                            size: product.size,
+                                            type: product.type
+                                        }}
+                                    />
+                                ) : (
+                                    <button className="cart-button" disabled>
+                                        𝐗
+                                    </button>
+                                )}
                                 <PlayButton
                                     youtubeId={product.youtubeId}
                                     playingId={playingId}
