@@ -19,6 +19,54 @@ interface Product {
     image: string | null;
 }
 
+// Product Popup Component
+const ProductPopup = ({ product, onClose }: { product: Product, onClose: () => void }) => {
+    return (
+        <div className="product-popup-overlay" onClick={onClose}>
+            <div className="product-popup-content" onClick={(e) => e.stopPropagation()}>
+                <button className="popup-close-button" onClick={onClose}>×</button>
+                <div className="popup-image-container">
+                    <img
+                        src={`http://localhost:5274${product.image}`}
+                        alt={product.name}
+                        onError={(e) => {
+                            (e.target as HTMLImageElement).src = 'https://via.placeholder.com/300x400?text=No+Image';
+                        }}
+                    />
+                </div>
+                <div className="popup-details">
+                    <h2>{product.name}</h2>
+                    <p className="popup-price">${product.price.toFixed(2)}</p>
+                    <p className="popup-description">{product.description}</p>
+                    <div className="popup-metadata">
+                        <span>Size: {product.size}</span>
+                        <span>Type: {product.type}</span>
+                        <span>Stock: {product.stock > 0 ? product.stock : 'Out of Stock'}</span>
+                    </div>
+                    {product.stock > 0 ? (
+                        <CartButtonAdd
+                            productId={product.id}
+                            quantity={1}
+                            productDetails={{
+                                name: product.name,
+                                price: product.price,
+                                image: product.image,
+                                stock: product.stock,
+                                size: product.size,
+                                type: product.type
+                            }}
+                        />
+                    ) : (
+                        <button className="cart-button popup-cart-button" disabled>
+                            𝐗
+                        </button>
+                    )}
+                </div>
+            </div>
+        </div>
+    );
+};
+
 const CollectionPage: React.FC = () => {
     const [products, setProducts] = useState<Product[]>([]);
     const [loading, setLoading] = useState(true);
@@ -32,6 +80,8 @@ const CollectionPage: React.FC = () => {
     const [playingId, setPlayingId] = useState<string | null>(null);
     const audioPlayerRef = useRef<HTMLIFrameElement | null>(null);
     const { setResetPlayStateCallback } = useSound();
+    // State for selected product popup
+    const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
     useEffect(() => {
         const fetchProducts = async () => {
@@ -135,6 +185,30 @@ const CollectionPage: React.FC = () => {
         setFilters(newFilters);
     };
 
+    // Handle product image click to open popup
+    const handleProductClick = (product: Product) => {
+        setSelectedProduct(product);
+    };
+
+    // Handle closing the popup
+    const handleClosePopup = () => {
+        setSelectedProduct(null);
+    };
+
+    // Handle keyboard events for accessibility (close popup with Escape key)
+    useEffect(() => {
+        const handleKeyDown = (e: KeyboardEvent) => {
+            if (e.key === 'Escape' && selectedProduct) {
+                handleClosePopup();
+            }
+        };
+
+        window.addEventListener('keydown', handleKeyDown);
+        return () => {
+            window.removeEventListener('keydown', handleKeyDown);
+        };
+    }, [selectedProduct]);
+
     if (loading) {
         return (
             <div className="collection-container">
@@ -172,7 +246,10 @@ const CollectionPage: React.FC = () => {
                                 onMouseEnter={handleMouseEnter}
                                 onMouseLeave={handleMouseLeave}
                             >
-                                <div className="product-image-container">
+                                <div
+                                    className="product-image-container"
+                                    onClick={() => handleProductClick(product)}
+                                >
                                     <img
                                         src={`http://localhost:5274${product.image}`}
                                         alt={product.name}
@@ -222,6 +299,11 @@ const CollectionPage: React.FC = () => {
                 </div>
                 <Footer />
             </div>
+
+            {/* Product popup */}
+            {selectedProduct && (
+                <ProductPopup product={selectedProduct} onClose={handleClosePopup} />
+            )}
         </div>
     );
 };
