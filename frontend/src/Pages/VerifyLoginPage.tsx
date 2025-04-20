@@ -34,6 +34,7 @@ const VerifyLoginPage: React.FC = () => {
     return (
         <div className="container">
             <h1 className="title">VERIFY LOGIN</h1>
+            
             <p className="label">Verification Code</p>
             <input
                 type="text"

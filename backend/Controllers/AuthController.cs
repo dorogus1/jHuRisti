@@ -68,6 +68,10 @@ public class AuthController : ControllerBase
             return BadRequest("Invalid verification code.");
         }
 
+
+
+
+
         user.IsVerifiedEmail = true;
         await _context.SaveChangesAsync();
 

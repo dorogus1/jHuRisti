@@ -1,5 +1,182 @@
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
 
+
+/* Refresh indicator */
+.refresh-indicator {
+    text-align: center;
+    margin: 10px 0;
+    color: #666;
+    font-size: 0.9em;
+    padding: 0 15px;
+}
+
+/* Responsive styles for devices */
+@media (max-width: 1200px) {
+    .product-card {
+        width: 30%;
+    }
+
+    .product-popup-content {
+        width: 90%;
+        max-width: 900px;
+    }
+}
+
+@media (max-width: 992px) {
+    .product-card {
+        width: 45%;
+    }
+
+    .products-grid {
+        margin-top: 80px;
+        gap: 15px;
+    }
+
+    .filter-dropdown {
+        width: 250px;
+    }
+}
+
+@media (max-width: 768px) {
+    .product-card {
+        width: 45%;
+    }
+
+    .product-popup-content {
+        flex-direction: column;
+        width: 90%;
+        max-height: 90vh;
+        overflow-y: auto;
+    }
+
+    .popup-image-container {
+        max-height: 40vh;
+        width: 100%;
+    }
+
+    .popup-details {
+        padding: 15px 10px;
+    }
+
+    .products-grid {
+        margin-top: 70px;
+        padding: 0 10px;
+    }
+
+    .refresh-indicator {
+        font-size: 0.8em;
+    }
+
+    .filter-button {
+        top: 60px;
+        width: 60px;
+        height: 60px;
+    }
+
+    .filter-dropdown {
+        top: 120px;
+        left: 10px;
+        width: 80%;
+        max-width: 300px;
+    }
+}
+
+@media (max-width: 576px) {
+    .product-card {
+        width: 48%;
+        margin-bottom: 15px;
+    }
+
+    .product-image {
+        height: 250px;
+    }
+
+    .product-title {
+        font-size: 16px;
+    }
+
+    .product-price {
+        font-size: 14px;
+    }
+
+    .play-button, .cart-button {
+        width: 30px;
+        height: 30px;
+        bottom: 20px;
+    }
+
+    .header-container {
+        height: 8vh;
+    }
+
+    .text-header-logo {
+        width: 100px;
+    }
+
+    .out-of-stock-text {
+        font-size: 18px;
+    }
+}
+
+@media (max-width: 480px) {
+    .product-card {
+        width: 100%;
+    }
+
+    .products-grid {
+        margin-top: 60px;
+    }
+
+    .filter-button {
+        top: 50px;
+        width: 50px;
+        height: 50px;
+        left: 10px;
+    }
+
+    .filter-dropdown {
+        top: 100px;
+        width: 90%;
+    }
+
+    .out-of-stock-overlay:before, .out-of-stock-overlay:after {
+        height: 3px;
+    }
+
+    .popup-close-button {
+        top: 5px;
+        right: 5px;
+        font-size: 24px;
+    }
+
+    .theme-button, .sound-button {
+        width: 40px;
+        height: 40px;
+    }
+
+    .user-button-container.login-button,
+    .user-button-container.cart-page-button {
+        width: 30px;
+        height: 30px;
+    }
+}
+
+/* Touchscreen-specific optimizations */
+@media (hover: none) {
+    .product-card:hover .product-image {
+        transform: none;
+    }
+
+    .play-button, .cart-button {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .product-title, .product-price {
+        transform: translateY(0) !important;
+    }
+}
+
 /* Product Popup Styles */
 .product-popup-overlay {
     position: fixed;
